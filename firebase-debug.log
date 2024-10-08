@@ -1,0 +1,27 @@
+[debug] [2024-10-08T23:29:16.650Z] ----------------------------------------------------------------------
+[debug] [2024-10-08T23:29:16.653Z] Command:       /nix/store/aspnwxp3q1wvg8jd1zg0295zmhr3lkb3-nodejs-18.19.1/bin/node /nix/store/xr72gg2gqad71hsvz1yfdcshbrd0b1f8-firebase-tools-13.19.0/lib/node_modules/firebase-tools/lib/bin/firebase.js login --no-localhost
+[debug] [2024-10-08T23:29:16.653Z] CLI Version:   13.19.0
+[debug] [2024-10-08T23:29:16.654Z] Platform:      linux
+[debug] [2024-10-08T23:29:16.654Z] Node Version:  v18.19.1
+[debug] [2024-10-08T23:29:16.654Z] Time:          Tue Oct 08 2024 23:29:16 GMT+0000 (Coordinated Universal Time)
+[debug] [2024-10-08T23:29:16.655Z] ----------------------------------------------------------------------
+[debug] 
+[info] i  Firebase optionally collects CLI and Emulator Suite usage and error reporting information to help improve our products. Data is collected in accordance with Google's privacy policy (https://policies.google.com/privacy) and is not used to identify you.
+ 
+[debug] [2024-10-08T23:29:23.111Z] >>> [apiv2][query] POST https://auth.firebase.tools/attest [none]
+[debug] [2024-10-08T23:29:23.127Z] >>> [apiv2][body] POST https://auth.firebase.tools/attest {"session_id":"67310694-1779-4669-a4f8-1e1e1d2312e6"}
+[debug] [2024-10-08T23:29:23.546Z] <<< [apiv2][status] POST https://auth.firebase.tools/attest 200
+[debug] [2024-10-08T23:29:23.547Z] <<< [apiv2][body] POST https://auth.firebase.tools/attest {"token":"gB91aT90E6elOfxPv-ghItO4bNs-ULbxraUF8UrEOLc"}
+[info] 
+[info] To sign in to the Firebase CLI:
+[info] 
+[info] 1. Take note of your session ID:
+[info] 
+[info]    67310
+[info] 
+[info] 2. Visit the URL below on any device and follow the instructions to get your code:
+[info] 
+[info]    https://auth.firebase.tools/login?code_challenge=Yp_lyBblP-cIejMEiVrEfOlzy8G63kgCD-I5HPDThS8&session=67310694-1779-4669-a4f8-1e1e1d2312e6&attest=gB91aT90E6elOfxPv-ghItO4bNs-ULbxraUF8UrEOLc
+[info] 
+[info] 3. Paste or enter the authorization code below once you have it:
+[info] 
