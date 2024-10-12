@@ -276,8 +276,16 @@
               </li>
               <!-- Subir archivos -->
               <li>
-                <a class="dropdown-item" href="{% url 'client_project_upload_files' project.id %}">Upload Files</a>
+                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#uploadFilesModal{{ project.id }}">
+                  Upload Files
+                </button>
               </li>
+              
+               <!-- Descargar archivos -->
+              <li>
+                <a class="dropdown-item" href="{% url 'client_download_project_files' project.id %}">Download Files as ZIP</a>
+              </li>
+              
               <!-- Eliminar proyecto -->
               <li>
                 <a class="dropdown-item text-danger" href="{% url 'client_project_delete' project.id %}">Delete Project</a>
@@ -314,6 +322,32 @@
         </div>
       </div>
     </div>
+
+
+    <!-- Modal para subir archivos al proyecto -->
+<div class="modal fade" id="uploadFilesModal{{ project.id }}" tabindex="-1" aria-labelledby="uploadFilesModalLabel{{ project.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadFilesModalLabel{{ project.id }}">Upload Files for {{ project.title }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="uploadFilesForm{{ project.id }}" method="POST" action="{% url 'client_project_upload_files' project.id %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+              <label for="id_files" class="form-label">Select Files</label>
+              <input type="file" name="file" class="form-control" multiple required>
+
+          </div>
+          <button type="submit" class="btn btn-primary">Upload Files</button>
+      </form>
+      
+      </div>
+    </div>
+  </div>
+</div>
+
 
     {% endfor %}
   </div>
@@ -381,6 +415,43 @@ $(document).ready(function() {
           });
       });
   });
+
+  $(document).ready(function() {
+    // Selecciona todos los formularios que tienen un id que comienza con "uploadFilesForm"
+    $('form[id^="uploadFilesForm"]').on('submit', function(e) {
+        e.preventDefault();  // Prevenir el comportamiento normal de envío de formulario
+        
+        var form = $(this);
+        var formData = new FormData(this);
+
+        // Obtener el ID del proyecto a partir del id del formulario
+        var projectId = form.attr('id').replace('uploadFilesForm', '');
+
+        $.ajax({
+            type: 'POST',
+            url: form.attr('action'),  // Usar la URL del action del formulario
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response.success) {
+                    // Mostrar mensaje de éxito o cerrar el modal
+                    alert('Files uploaded successfully!');
+                    
+                    // Cerrar el modal después de subir archivos
+                    $('#uploadFilesModal' + projectId).modal('hide');
+                } else {
+                    alert('Error uploading files');
+                }
+            },
+            error: function() {
+                alert('Error processing request');
+            }
+        });
+    });
+});
+
+
 </script>
 
 
@@ -388,19 +459,41 @@ $(document).ready(function() {
 <!------------------------------------------------------------------------------------ Files Section ---------------------------------------------------------------------------------->
    <!-- 2. Files Section: List of Uploaded Files -->
   <div id="filesSection" style="display:none;">
-    <h4>Uploaded Files</h4>
-    <ul class="list-group">
-      <!-- Iteramos sobre los archivos y mostramos la fecha de subida -->
-      {% for file in files %}
-        <li class="list-group-item">
-          <a href="{{ file.file.url }}">{{ file.file.name }}</a> - Uploaded on: {{ file.uploaded_at|date:"Y-m-d H:i" }}
-        </li>
-      {% empty %}
-        <li class="list-group-item">No files uploaded yet.</li>
-      {% endfor %}
-    </ul>
-  </div>
+    <h2>Your Files</h2>
+    
+    <!-- Search Bar para filtrar archivos -->
+    <form method="GET" action="">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <input type="text" name="search" class="form-control" placeholder="Search files..." value="{{ request.GET.search }}">
+            </div>
+            <div class="col-md-4">
+                <input type="date" name="date" class="form-control" value="{{ request.GET.date }}">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+        </div>
+    </form>
 
+    <!-- Mostrar los archivos -->
+    <div class="row">
+        {% for file in client_files %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ file.file.name }}</h5>
+                        <p class="card-text">Uploaded: {{ file.uploaded_at }}</p>
+                        <a href="{{ file.file.url }}" class="btn btn-outline-primary" download>Download</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No files found.</p>
+        {% endfor %}
+    </div>
+</div>
+<!------------------------------------------------------------------------------------ Files Section ---------------------------------------------------------------------------------->
     <!-- 3. Account Settings Section: User account details and settings -->
     <div id="settingsSection" style="display:none;">
       <h4>Account Settings</h4>

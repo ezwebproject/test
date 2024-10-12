@@ -26,6 +26,9 @@ from .models import ProjectFile  # Asume que tienes un modelo de archivo llamado
 from .forms import ProjectFileForm  # Asegúrate de tener un formulario para archivos
 
 
+
+
+
 def login_view(request):
     if request.method == 'POST':
         # Get user credentials
@@ -361,28 +364,40 @@ def client_project_create(request):
 def client_project_delete(request, project_id):
     project = get_object_or_404(ClientProject, id=project_id, user=request.user)
     project.delete()
-    return JsonResponse({'success': True})
+    return redirect('client_view')
 
+
+@login_required
 def client_project_upload_files(request, project_id):
-    project = get_object_or_404(ClientProject, id=project_id, user=request.user)  # Asegura que solo se acceda a los proyectos del cliente logueado
+    project = get_object_or_404(ClientProject, id=project_id, user=request.user)  # Verificar que el proyecto pertenezca al usuario logueado
+
     if request.method == 'POST':
-        form = ClientProjectFileForm(request.POST, request.FILES)
+        form = ClientProjectFileForm(request.POST, request.FILES)  # Asegúrate de incluir request.FILES
         if form.is_valid():
             file_instance = form.save(commit=False)
-            file_instance.project = project
+            file_instance.project = project  # Asigna el proyecto actual
             file_instance.save()
-            return redirect('client_project_list')
-    else:
-        form = ClientProjectFileForm()
-    
-    return render(request, 'client/upload_files.html', {'form': form, 'project': project})
+
+            # Responder con JSON si la petición es AJAX
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': True, 'file_name': file_instance.file.name})
+
+            return redirect('client')  # En caso de que no sea AJAX, redirigir
+
+        # Agrega esta parte para imprimir los errores del formulario
+        else:
+            print("Form errors:", form.errors)  # Imprime los errores del formulario
+            return JsonResponse({'success': False, 'error': 'Invalid form submission', 'form_errors': form.errors})
+
+    # Si no es un POST, retornar un error
+    return JsonResponse({'success': False, 'error': 'Invalid request'})
 
 @login_required
 def client_project_file_delete(request, file_id):
     # Obtener el archivo del proyecto, asegurando que pertenece al cliente logueado
     project_file = get_object_or_404(ClientProjectFile, id=file_id, project__user=request.user)
     project_file.delete()
-    return JsonResponse({'success': True})
+    return redirect('client_view')
 
 
 @login_required
@@ -400,3 +415,43 @@ def client_view(request):
         'formset': formset,
         'projects': projects,
     })
+
+@login_required
+def client_download_project_files(request, project_id):
+    project = get_object_or_404(ClientProject, id=project_id, user=request.user)
+    files = ClientProjectFile.objects.filter(project=project)
+
+    # Crear un objeto en memoria para el archivo zip
+    zip_filename = f"{project.title}_files.zip"
+    response = HttpResponse(content_type='application/zip')
+    response['Content-Disposition'] = f'attachment; filename={zip_filename}'
+
+    with zipfile.ZipFile(response, 'w') as zip_file:
+        for project_file in files:
+            file_path = project_file.file.path
+            file_name = os.path.basename(file_path)
+            zip_file.write(file_path, file_name)
+
+    return response
+
+@login_required
+def client_files_view(request):
+    # Formulario para crear proyectos y formset para subir archivos
+    ProjectFileFormSet = modelformset_factory(ClientProjectFile, form=ClientProjectFileForm, extra=3)
+
+    project_form = ClientProjectForm()  # El formulario para crear el proyecto
+    formset = ProjectFileFormSet(queryset=ClientProjectFile.objects.none())  # Crear el formset para los archivos
+
+    # Obtener los proyectos del usuario logueado
+    projects = ClientProject.objects.filter(user=request.user)
+
+    # Obtener los archivos asociados a los proyectos del cliente
+    client_files = ClientProjectFile.objects.filter(project__user=request.user)
+
+    return render(request, 'client.html', {
+        'project_form': project_form,
+        'formset': formset,
+        'projects': projects,
+        'client_files': client_files,  # Pasamos los archivos del cliente al template
+    })
+

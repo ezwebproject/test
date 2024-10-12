@@ -64,7 +64,12 @@ urlpatterns = [
 
     path('client/', views.client_view, name='client_view'),
 
-    path('projects/create/', client_project_create, name='client_project_create'),
+    # Ruta para descargar archivos de un proyecto
+    path('client/projects/<int:project_id>/download/', views.client_download_project_files, name='client_download_project_files'),
+
+    # Nueva URL para la vista de archivos
+    path('client/files/', views.client_files_view, name='client_files'),  
+   
 
     # This will display index.html on the root URL
 
