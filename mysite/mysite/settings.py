@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-^=6-_k)oh!n9-fpcd1qd0rf(!8y2!!8cc*so1if(!*ydv@*_dc
 DEBUG = True
 
 #ALLOWED_HOSTS = ['127.0.0.1', '8000-idx-test-1725770159174.cluster-vyr53kd25jc2yvngldrwyq6zc4.cloudworkstations.dev']
-ALLOWED_HOSTS = ["https://ezwebproject.pythonanywhere.com"]
+ALLOWED_HOSTS = ['ezwebproject.pythonanywhere.com']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
