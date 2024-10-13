@@ -205,7 +205,7 @@
   <h2 class="mb-4">Your Projects</h2>
 
   <!-- Botón para abrir el modal de creación de proyecto -->
-  <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#createProjectModal">
+  <button type="button" class="btn btn-dark mb-4" data-bs-toggle="modal" data-bs-target="#createProjectModal">
     Create New Project
   </button>
 
@@ -264,7 +264,7 @@
 
           <!-- Dropdown menu -->
           <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ project.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton{{ project.id }}" data-bs-toggle="dropdown" aria-expanded="false">
               Actions
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ project.id }}">
@@ -340,7 +340,7 @@
               <input type="file" name="file" class="form-control" multiple required>
 
           </div>
-          <button type="submit" class="btn btn-primary">Upload Files</button>
+          <button type="submit" class="btn btn-dark">Upload Files</button>
       </form>
       
       </div>
@@ -457,49 +457,117 @@ $(document).ready(function() {
 
 
 <!------------------------------------------------------------------------------------ Files Section ---------------------------------------------------------------------------------->
-   <!-- 2. Files Section: List of Uploaded Files -->
-  <div id="filesSection" style="display:none;">
-    <h2>Your Files</h2>
-    
-    <!-- Search Bar para filtrar archivos -->
-    <form method="GET" action="">
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <input type="text" name="search" class="form-control" placeholder="Search files..." value="{{ request.GET.search }}">
-            </div>
-            <div class="col-md-4">
-                <input type="date" name="date" class="form-control" value="{{ request.GET.date }}">
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary">Filter</button>
-            </div>
-        </div>
-    </form>
+ 
+<!-- 2. Files Section: List of Uploaded Files -->
+<div id="filesSection" style="display:none;">
+  <h2>Your Files</h2>
+  
+  <!-- Search Bar para filtrar archivos -->
+  <form method="GET" action="">
+      <div class="row mb-4">
+          <div class="col-md-6">
+              <input type="text" name="search" class="form-control" placeholder="Search files..." value="{{ request.GET.search }}">
+          </div>
+          <div class="col-md-4">
+              <input type="date" name="date" class="form-control" value="{{ request.GET.date }}">
+          </div>
+          <!-- Aquí eliminamos el botón Filter -->
+      </div>
+  </form>
 
-    <!-- Mostrar los archivos -->
-    <div class="row">
-        {% for file in client_files %}
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ file.file.name }}</h5>
-                        <p class="card-text">Uploaded: {{ file.uploaded_at }}</p>
-                        <a href="{{ file.file.url }}" class="btn btn-outline-primary" download>Download</a>
-                    </div>
-                </div>
-            </div>
-        {% empty %}
-            <p>No files found.</p>
-        {% endfor %}
+<!-- Sección para mostrar los archivos -->
+<div class="row">
+{% for file in client_files %}
+  <div class="col-md-4 file-card" data-name="{{ file.basename }}" data-date="{{ file.uploaded_at|date:"Y-m-d" }}">
+    <div class="card mb-4">
+      <div class="card-body">
+        <!-- Hacer que el nombre del archivo sea un enlace -->
+        <h5 class="card-title">
+          <a href="{{ file.file.url }}" target="_blank">{{ file.basename }}</a>
+        </h5>
+        
+        <!-- Mostrar el nombre del proyecto al que pertenece el archivo -->
+        <p class="card-text">Project: {{ file.project.title }}</p>
+        
+        <!-- Fecha de subida -->
+        <p class="card-text">Uploaded: {{ file.uploaded_at }}</p>
+
+        <!-- Dropdown Menu -->
+        <div class="dropdown">
+          <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton{{ file.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+            Actions
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ file.id }}">
+            <!-- Descargar archivo -->
+            <li>
+              <a class="dropdown-item" href="{{ file.file.url }}" download>Download</a>
+            </li>
+            <!-- Eliminar archivo -->
+            <li>
+              <a class="dropdown-item text-danger" href="{% url 'client_project_file_delete_filesSection' file.id %}">Delete</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
+  </div>
+{% empty %}
+  <p>No files found.</p>
+{% endfor %}
 </div>
-<!------------------------------------------------------------------------------------ Files Section ---------------------------------------------------------------------------------->
+
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.querySelector('input[name="search"]');
+    const dateInput = document.querySelector('input[name="date"]');
+    const fileCards = document.querySelectorAll('.file-card');
+
+    // Función para filtrar archivos
+    function filterFiles() {
+        const searchQuery = searchInput.value.toLowerCase();
+        const dateQuery = dateInput.value;
+
+        fileCards.forEach(fileCard => {
+            const fileName = fileCard.getAttribute('data-name').toLowerCase();
+            const fileDate = fileCard.getAttribute('data-date');
+
+            // Comparar el nombre y la fecha
+            const matchesSearch = fileName.includes(searchQuery);
+            const matchesDate = dateQuery === '' || fileDate === dateQuery;
+
+            // Mostrar u ocultar la tarjeta según coincidan los criterios de búsqueda
+            if (matchesSearch && matchesDate) {
+                fileCard.style.display = 'block';
+            } else {
+                fileCard.style.display = 'none';
+            }
+        });
+    }
+
+    // Event listeners para el filtrado
+    searchInput.addEventListener('input', filterFiles);
+    dateInput.addEventListener('input', filterFiles);
+});
+
+  </script>
+  
+
+
+
+
+
+
+
+<!------------------------------------------------------------------------------------ Account Settings ---------------------------------------------------------------------------------->
     <!-- 3. Account Settings Section: User account details and settings -->
-    <div id="settingsSection" style="display:none;">
+<div id="settingsSection" style="display:none;">
       <h4>Account Settings</h4>
       <div class="card">
         <div class="card-body">
-          <form>
+      
             <!-- Campo de nombre completo -->
             <div class="mb-3">
               <label for="userName" class="form-label">User Name</label>
@@ -515,9 +583,11 @@ $(document).ready(function() {
             <!-- Botón para resetear la contraseña -->
             <div class="mb-3">
               <label for="resetPassword" class="form-label">Reset Password</label>
-              <button type="button" class="btn" style="background-color: black; color: white;" id="resetPassword">Reset Password</button>
+              <form method="post" action="{% url 'reset_password' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-dark">Reset Password</button>
+            </form>            
             </div>
-          </form>
         </div>
       </div>
     </div>

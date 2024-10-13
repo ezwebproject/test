@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-^=6-_k)oh!n9-fpcd1qd0rf(!8y2!!8cc*so1if(!*ydv@*_dc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://ezwebproject.pythonanywhere.com"]
+ALLOWED_HOSTS = ['127.0.0.1', '8000-idx-test-1725770159174.cluster-vyr53kd25jc2yvngldrwyq6zc4.cloudworkstations.dev']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -145,3 +145,11 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'hector.ramos2600@gmail.com'
+EMAIL_HOST_PASSWORD = 'pbvj nnes kcee epkb'
+DEFAULT_FROM_EMAIL = 'tu-email@gmail.com'

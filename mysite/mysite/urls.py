@@ -67,11 +67,15 @@ urlpatterns = [
     # Ruta para descargar archivos de un proyecto
     path('client/projects/<int:project_id>/download/', views.client_download_project_files, name='client_download_project_files'),
 
-    # Nueva URL para la vista de archivos
-    path('client/files/', views.client_files_view, name='client_files'),  
-   
+    #
+     path('projects/file/<int:file_id>/delete/', views.client_project_file_delete_filesSection, name='client_project_file_delete_filesSection'),
 
-    # This will display index.html on the root URL
+    # Reset password routes
+    path('reset-password/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset_form.html'), name='reset_password'),
+    path('reset-password-sent/', auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'), name='password_reset_confirm'),
+    path('reset-password-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
+
 
 
 ]
