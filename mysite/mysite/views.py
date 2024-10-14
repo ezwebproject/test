@@ -26,6 +26,8 @@ from .models import ProjectFile  # Asume que tienes un modelo de archivo llamado
 from .forms import ProjectFileForm  # Asegúrate de tener un formulario para archivos
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.utils.translation import get_language
+from django.utils.translation import get_language
 
 
 
@@ -339,6 +341,7 @@ def client_view(request):
         'formset': formset,
         'projects': projects,
         'client_files': client_files,  # Pasamos los archivos del cliente al template
+        'LANGUAGE_CODE': get_language(),
     })
 
 

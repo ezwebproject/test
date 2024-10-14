@@ -142,550 +142,456 @@
 </head>
 <body>
 
+  {% load i18n %}
+
 <!-- Navbar for mobile devices (hidden on large devices) -->
 <nav class="navbar navbar-expand-lg navbar-light d-lg-none">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#" style="color: black;">{{ user.first_name }}'s Dashboard</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="#" style="color: black;">{{ user.first_name }}{% trans "'s Dashboard" %}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="{% trans "Toggle navigation" %}">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <!-- Mobile Navbar Views -->
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#projectsSection" id="projectsLinkMobile">Projects</a>
+          <a class="nav-link active" aria-current="page" href="#projectsSection" id="projectsLinkMobile">{% trans "Projects" %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#filesSection" id="filesLinkMobile">Files</a>
+          <a class="nav-link" href="#filesSection" id="filesLinkMobile">{% trans "Files" %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#settingsSection" id="settingsLinkMobile">Account Settings</a>
+          <a class="nav-link" href="#settingsSection" id="settingsLinkMobile">{% trans "Account Settings" %}</a>
         </li>
         <li class="nav-item">
-          <button class="btn logout-btn w-100 mt-3">Logout</button>
+          <button class="btn logout-btn w-100 mt-3">{% trans "Logout" %}</button>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 
-
 <!-- Sidebar for larger screens -->
 <nav class="sidebar d-flex flex-column p-3 d-none d-md-block">
-  <h2 class="text-black mb-4">{{ user.first_name }}'s Dashboard</h2>
+  <h2 class="text-black mb-4">{{ user.first_name }}{% trans "'s Dashboard" %}</h2>
   <ul class="nav flex-column mb-auto">
     <!-- Sidebar Views -->
     <li class="nav-item">
-      <a href="#projectsSection" class="nav-link active" id="projectsLink">Projects</a>
+      <a href="#projectsSection" class="nav-link active" id="projectsLink">{% trans "Projects" %}</a>
     </li>
     <li class="nav-item">
-      <a href="#filesSection" class="nav-link" id="filesLink">Files</a>
+      <a href="#filesSection" class="nav-link" id="filesLink">{% trans "Files" %}</a>
     </li>
     <li class="nav-item">
-      <a href="#settingsSection" class="nav-link" id="settingsLink">Account Settings</a>
+      <a href="#settingsSection" class="nav-link" id="settingsLink">{% trans "Account Settings" %}</a>
     </li>
   </ul>
 
-
-    <!-- Logout Button at the bottom -->
-    <div>
-      <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-dark logout-btn">Logout</button>
-      </form>
-    </div>
-  </nav>
+  <!-- Logout Button at the bottom -->
+  <div>
+    <form method="POST" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-dark logout-btn">{% trans "Logout" %}</button>
+    </form>
+  </div>
+</nav>
 
 <!--------------------------------------------------------------------------------------- Main Content ---------------------------------------------------------------------------------->
-  <div class="main-content">
+<div class="main-content">
 
+  <!------------------------------------------------------------------------------------ Project Section ---------------------------------------------------------------------------------->
+  <div id="projectsSection" style="display:block;" class="container mt-4">
+    <h2 class="mb-4">{% trans "Your Projects" %}</h2>
   
-<!------------------------------------------------------------------------------------ Project Section ---------------------------------------------------------------------------------->
-<div id="projectsSection" style="display:block;" class="container mt-4">
-  <h2 class="mb-4">Your Projects</h2>
-
-  <!-- Botón para abrir el modal de creación de proyecto -->
-  <button type="button" class="btn btn-dark mb-4" data-bs-toggle="modal" data-bs-target="#createProjectModal">
-    Create New Project
-  </button>
-
-  <!-- Modal para crear un nuevo proyecto -->
-  <div class="modal fade" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createProjectModalLabel">Create New Project</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="createProjectForm" method="POST" action="{% url 'client_project_create' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            
-            <!-- Título del proyecto -->
-            <div class="mb-3">
-              {{ project_form.title.label_tag }}
-              {{ project_form.title }}
-            </div>
-            
-            <!-- Descripción del proyecto -->
-            <div class="mb-3">
-              {{ project_form.description.label_tag }}
-              {{ project_form.description }}
-            </div>
-            
-            <!-- Subir archivos -->
-            <div class="mb-3">
-              <label for="id_files" class="form-label">Upload Files</label>
-              {{ formset.management_form }}
-              {% for form in formset %}
-              <div class="mb-3">
-                {{ form.file }}
-              </div>
-              {% endfor %}
-            </div>
-            
-            <!-- Botón para crear el proyecto -->
-            <button type="submit" class="btn btn-primary">Create Project</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Listado de proyectos -->
-  <div class="row" id="projectsList">
-    {% for project in projects %}
-    <div class="col-12 col-sm-6 col-md-4">
-      <div class="card mb-4 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">{{ project.title }}</h5>
-          <p class="card-text">{{ project.description }}</p>
-          <p class="text-muted">{{ project.created_at|date:"F j, Y" }}</p>
-
-          <!-- Dropdown menu -->
-          <div class="dropdown">
-            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton{{ project.id }}" data-bs-toggle="dropdown" aria-expanded="false">
-              Actions
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ project.id }}">
-              <!-- Ver archivos -->
-              <li>
-                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#projectFilesModal{{ project.id }}">
-                  View Files
-                </button>
-              </li>
-              <!-- Subir archivos -->
-              <li>
-                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#uploadFilesModal{{ project.id }}">
-                  Upload Files
-                </button>
-              </li>
-              
-               <!-- Descargar archivos -->
-              <li>
-                <a class="dropdown-item" href="{% url 'client_download_project_files' project.id %}">Download Files as ZIP</a>
-              </li>
-              
-              <!-- Eliminar proyecto -->
-              <li>
-                <a class="dropdown-item text-danger" href="{% url 'client_project_delete' project.id %}">Delete Project</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal para ver archivos del proyecto -->
-    <div class="modal fade" id="projectFilesModal{{ project.id }}" tabindex="-1" aria-labelledby="projectFilesModalLabel{{ project.id }}" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
+    <!-- Botón para abrir el modal de creación de proyecto -->
+    <button type="button" class="btn btn-dark mb-4" data-bs-toggle="modal" data-bs-target="#createProjectModal">
+      {% trans "Create New Project" %}
+    </button>
+  
+    <!-- Modal para crear un nuevo proyecto -->
+    <div class="modal fade" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="projectFilesModalLabel{{ project.id }}">Files for {{ project.title }}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title" id="createProjectModalLabel">{% trans "Create New Project" %}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% trans "Close" %}"></button>
           </div>
           <div class="modal-body">
-            <!-- Listado de archivos del proyecto -->
-            {% if project.client_files.all %}
-              <ul class="list-group">
-                {% for file in project.client_files.all %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
-                  <a href="{% url 'client_project_file_delete' file.id %}" class="btn btn-danger btn-sm">Delete</a>
-                </li>
+            <form id="createProjectForm" method="POST" action="{% url 'client_project_create' %}" enctype="multipart/form-data">
+              {% csrf_token %}
+              
+              <!-- Título del proyecto -->
+              <div class="mb-3">
+                <label for="id_title" class="form-label">{% trans "Project Title" %}</label>
+                {{ project_form.title }}
+              </div>
+              
+              <!-- Descripción del proyecto -->
+              <div class="mb-3">
+                <label for="id_description" class="form-label">{% trans "Project Description" %}</label>
+                {{ project_form.description }}
+              </div>
+              
+              <!-- Subir archivos -->
+              <div class="mb-3">
+                <label for="id_files" class="form-label">{% trans "Upload Files" %}</label>
+                {{ formset.management_form }}
+                {% for form in formset %}
+                <div class="mb-3">
+                  {{ form.file }}
+                </div>
                 {% endfor %}
-              </ul>
-            {% else %}
-              <p>No files uploaded for this project.</p>
-            {% endif %}
+              </div>
+              
+              <!-- Botón para crear el proyecto -->
+              <button type="submit" class="btn btn-primary">{% trans "Create Project" %}</button>
+            </form>
           </div>
         </div>
       </div>
     </div>
-
-
-    <!-- Modal para subir archivos al proyecto -->
-<div class="modal fade" id="uploadFilesModal{{ project.id }}" tabindex="-1" aria-labelledby="uploadFilesModalLabel{{ project.id }}" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="uploadFilesModalLabel{{ project.id }}">Upload Files for {{ project.title }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="uploadFilesForm{{ project.id }}" method="POST" action="{% url 'client_project_upload_files' project.id %}" enctype="multipart/form-data">
-          {% csrf_token %}
-          <div class="mb-3">
-              <label for="id_files" class="form-label">Select Files</label>
-              <input type="file" name="file" class="form-control" multiple required>
-
+  
+    <!-- Listado de proyectos -->
+    <div class="row" id="projectsList">
+      {% for project in projects %}
+      <div class="col-12 col-sm-6 col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ project.title }}</h5>
+            <p class="card-text">{{ project.description }}</p>
+            <p class="text-muted">{{ project.created_at|date:"F j, Y" }}</p>
+  
+            <!-- Dropdown menu -->
+            <div class="dropdown">
+              <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton{{ project.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                {% trans "Actions" %}
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ project.id }}">
+                <!-- Ver archivos -->
+                <li>
+                  <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#projectFilesModal{{ project.id }}">
+                    {% trans "View Files" %}
+                  </button>
+                </li>
+                <!-- Subir archivos -->
+                <li>
+                  <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#uploadFilesModal{{ project.id }}">
+                    {% trans "Upload Files" %}
+                  </button>
+                </li>
+                
+                <!-- Descargar archivos -->
+                <li>
+                  <a class="dropdown-item" href="{% url 'client_download_project_files' project.id %}">{% trans "Download Files as ZIP" %}</a>
+                </li>
+                
+                <!-- Eliminar proyecto -->
+                <li>
+                  <a class="dropdown-item text-danger" href="{% url 'client_project_delete' project.id %}">{% trans "Delete Project" %}</a>
+                </li>
+              </ul>
+            </div>
           </div>
-          <button type="submit" class="btn btn-dark">Upload Files</button>
-      </form>
-      
+        </div>
       </div>
+  
+      <!-- Modal para ver archivos del proyecto -->
+      <div class="modal fade" id="projectFilesModal{{ project.id }}" tabindex="-1" aria-labelledby="projectFilesModalLabel{{ project.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="projectFilesModalLabel{{ project.id }}">
+                {% blocktrans with project.title as project_title %}Files for {{ project_title }}{% endblocktrans %}
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% trans "Close" %}"></button>
+            </div>
+            <div class="modal-body">
+              <!-- Listado de archivos del proyecto -->
+              {% if project.client_files.all %}
+                <ul class="list-group">
+                  {% for file in project.client_files.all %}
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
+                    <a href="{% url 'client_project_file_delete' file.id %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p>{% trans "No files uploaded for this project." %}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Modal para subir archivos al proyecto -->
+      <div class="modal fade" id="uploadFilesModal{{ project.id }}" tabindex="-1" aria-labelledby="uploadFilesModalLabel{{ project.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="uploadFilesModalLabel{{ project.id }}">
+                {% blocktrans with project.title as project_title %}Upload Files for {{ project_title }}{% endblocktrans %}
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% trans "Close" %}"></button>
+            </div>
+            <div class="modal-body">
+              <form id="uploadFilesForm{{ project.id }}" method="POST" action="{% url 'client_project_upload_files' project.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="id_files" class="form-label">{% trans "Select Files" %}</label>
+                  <input type="file" name="file" class="form-control" multiple required>
+                </div>
+                <button type="submit" class="btn btn-dark">{% trans "Upload Files" %}</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      {% endfor %}
     </div>
   </div>
-</div>
-
-
-    {% endfor %}
-  </div>
-</div>
-
-
-<script>
-$(document).ready(function() {
-      $('#createProjectForm').on('submit', function(e) {
-          e.preventDefault();  // Prevenir el envío normal del formulario
-
-          var formData = new FormData(this);  // Capturar los datos del formulario
-
+  
+  <script>
+  $(document).ready(function() {
+        $('#createProjectForm').on('submit', function(e) {
+            e.preventDefault();  // Prevenir el envío normal del formulario
+  
+            var formData = new FormData(this);  // Capturar los datos del formulario
+  
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'client_project_create' %}",  // Usar la URL de creación de proyecto
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        // Cerrar el modal
+                        $('#createProjectModal').modal('hide');
+  
+                        // Limpiar el formulario
+                        $('#createProjectForm')[0].reset();
+  
+                        // Agregar el nuevo proyecto a la lista de proyectos
+                        var newProject = `
+                            <div class="col-12 col-sm-6 col-md-4">
+                              <div class="card mb-4 shadow-sm">
+                                <div class="card-body">
+                                  <h5 class="card-title">${response.title}</h5>
+                                  <p class="card-text">${response.description}</p>
+                                  <p class="text-muted">${response.created_at}</p>
+                                  <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                      {% trans "Actions" %}
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                      <li>
+                                        <button type="button" class="dropdown-item" data-bs-toggle="modal">{% trans "View Files" %}</button>
+                                      </li>
+                                      <li>
+                                        <a class="dropdown-item" href="#">{% trans "Upload Files" %}</a>
+                                      </li>
+                                      <li>
+                                        <a class="dropdown-item text-danger" href="#">{% trans "Delete Project" %}</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>`;
+                        
+                        // Añadir el nuevo proyecto a la lista en la página
+                        $('#projectsList').append(newProject);
+                    } else {
+                        alert("{% trans "Error creating project" %}");
+                    }
+                },
+                error: function(error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+    });
+  
+    $(document).ready(function() {
+      // Selecciona todos los formularios que tienen un id que comienza con "uploadFilesForm"
+      $('form[id^="uploadFilesForm"]').on('submit', function(e) {
+          e.preventDefault();  // Prevenir el comportamiento normal de envío de formulario
+          
+          var form = $(this);
+          var formData = new FormData(this);
+  
+          // Obtener el ID del proyecto a partir del id del formulario
+          var projectId = form.attr('id').replace('uploadFilesForm', '');
+  
           $.ajax({
               type: 'POST',
-              url: "{% url 'client_project_create' %}",  // Usar la URL de creación de proyecto
+              url: form.attr('action'),  // Usar la URL del action del formulario
               data: formData,
               processData: false,
               contentType: false,
               success: function(response) {
                   if (response.success) {
-                      // Cerrar el modal
-                      $('#createProjectModal').modal('hide');
-
-                      // Limpiar el formulario
-                      $('#createProjectForm')[0].reset();
-
-                      // Agregar el nuevo proyecto a la lista de proyectos
-                      var newProject = `
-                          <div class="col-12 col-sm-6 col-md-4">
-                            <div class="card mb-4 shadow-sm">
-                              <div class="card-body">
-                                <h5 class="card-title">${response.title}</h5>
-                                <p class="card-text">${response.description}</p>
-                                <p class="text-muted">${response.created_at}</p>
-                                <div class="dropdown">
-                                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Actions
-                                  </button>
-                                  <ul class="dropdown-menu">
-                                    <li>
-                                      <button type="button" class="dropdown-item" data-bs-toggle="modal">View Files</button>
-                                    </li>
-                                    <li>
-                                      <a class="dropdown-item" href="#">Upload Files</a>
-                                    </li>
-                                    <li>
-                                      <a class="dropdown-item text-danger" href="#">Delete Project</a>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
-                          </div>`;
+                      // Mostrar mensaje de éxito o cerrar el modal
+                      alert('{% trans "Files uploaded successfully!" %}');
                       
-                      // Añadir el nuevo proyecto a la lista en la página
-                      $('#projectsList').append(newProject);
+                      // Cerrar el modal después de subir archivos
+                      $('#uploadFilesModal' + projectId).modal('hide');
                   } else {
-                      alert("Error creating project");
+                      alert('{% trans "Error uploading files" %}');
                   }
               },
-              error: function(error) {
-                  console.log('Error:', error);
+              error: function() {
+                  alert('{% trans "Error processing request" %}');
               }
           });
       });
   });
-
-  $(document).ready(function() {
-    // Selecciona todos los formularios que tienen un id que comienza con "uploadFilesForm"
-    $('form[id^="uploadFilesForm"]').on('submit', function(e) {
-        e.preventDefault();  // Prevenir el comportamiento normal de envío de formulario
-        
-        var form = $(this);
-        var formData = new FormData(this);
-
-        // Obtener el ID del proyecto a partir del id del formulario
-        var projectId = form.attr('id').replace('uploadFilesForm', '');
-
-        $.ajax({
-            type: 'POST',
-            url: form.attr('action'),  // Usar la URL del action del formulario
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                if (response.success) {
-                    // Mostrar mensaje de éxito o cerrar el modal
-                    alert('Files uploaded successfully!');
-                    
-                    // Cerrar el modal después de subir archivos
-                    $('#uploadFilesModal' + projectId).modal('hide');
-                } else {
-                    alert('Error uploading files');
-                }
-            },
-            error: function() {
-                alert('Error processing request');
-            }
-        });
-    });
-});
-
-
-</script>
-
-
-
-<!------------------------------------------------------------------------------------ Files Section ---------------------------------------------------------------------------------->
- 
-<!-- 2. Files Section: List of Uploaded Files -->
-<div id="filesSection" style="display:none;">
-  <h2>Your Files</h2>
-  
-  <!-- Search Bar para filtrar archivos -->
-  <form method="GET" action="">
-      <div class="row mb-4">
-          <div class="col-md-6">
-              <input type="text" name="search" class="form-control" placeholder="Search files..." value="{{ request.GET.search }}">
-          </div>
-          <div class="col-md-4">
-              <input type="date" name="date" class="form-control" value="{{ request.GET.date }}">
-          </div>
-          <!-- Aquí eliminamos el botón Filter -->
-      </div>
-  </form>
-
-<!-- Sección para mostrar los archivos -->
-<div class="row">
-{% for file in client_files %}
-  <div class="col-md-4 file-card" data-name="{{ file.basename }}" data-date="{{ file.uploaded_at|date:"Y-m-d" }}">
-    <div class="card mb-4">
-      <div class="card-body">
-        <!-- Hacer que el nombre del archivo sea un enlace -->
-        <h5 class="card-title">
-          <a href="{{ file.file.url }}" target="_blank">{{ file.basename }}</a>
-        </h5>
-        
-        <!-- Mostrar el nombre del proyecto al que pertenece el archivo -->
-        <p class="card-text">Project: {{ file.project.title }}</p>
-        
-        <!-- Fecha de subida -->
-        <p class="card-text">Uploaded: {{ file.uploaded_at }}</p>
-
-        <!-- Dropdown Menu -->
-        <div class="dropdown">
-          <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton{{ file.id }}" data-bs-toggle="dropdown" aria-expanded="false">
-            Actions
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ file.id }}">
-            <!-- Descargar archivo -->
-            <li>
-              <a class="dropdown-item" href="{{ file.file.url }}" download>Download</a>
-            </li>
-            <!-- Eliminar archivo -->
-            <li>
-              <a class="dropdown-item text-danger" href="{% url 'client_project_file_delete_filesSection' file.id %}">Delete</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-{% empty %}
-  <p>No files found.</p>
-{% endfor %}
-</div>
-
-</div>
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.querySelector('input[name="search"]');
-    const dateInput = document.querySelector('input[name="date"]');
-    const fileCards = document.querySelectorAll('.file-card');
-
-    // Función para filtrar archivos
-    function filterFiles() {
-        const searchQuery = searchInput.value.toLowerCase();
-        const dateQuery = dateInput.value;
-
-        fileCards.forEach(fileCard => {
-            const fileName = fileCard.getAttribute('data-name').toLowerCase();
-            const fileDate = fileCard.getAttribute('data-date');
-
-            // Comparar el nombre y la fecha
-            const matchesSearch = fileName.includes(searchQuery);
-            const matchesDate = dateQuery === '' || fileDate === dateQuery;
-
-            // Mostrar u ocultar la tarjeta según coincidan los criterios de búsqueda
-            if (matchesSearch && matchesDate) {
-                fileCard.style.display = 'block';
-            } else {
-                fileCard.style.display = 'none';
-            }
-        });
-    }
-
-    // Event listeners para el filtrado
-    searchInput.addEventListener('input', filterFiles);
-    dateInput.addEventListener('input', filterFiles);
-});
-
   </script>
   
-
-
-
-
-
-
-
-<!------------------------------------------------------------------------------------ Account Settings ---------------------------------------------------------------------------------->
-    <!-- 3. Account Settings Section: User account details and settings -->
-<div id="settingsSection" style="display:none;">
-      <h4>Account Settings</h4>
-      <div class="card">
-        <div class="card-body">
-      
-            <!-- Campo de nombre completo -->
-            <div class="mb-3">
-              <label for="userName" class="form-label">User Name</label>
-              <input type="text" class="form-control" id="userName" value="{{ user.first_name }} {{ user.last_name }}" readonly>
-            </div>
+  <!------------------------------------------------------------------------------------ Files Section ---------------------------------------------------------------------------------->
+   
+  <!-- 2. Files Section: List of Uploaded Files -->
+  <div id="filesSection" style="display:none;">
+    <h2>{% trans "Your Files" %}</h2>
     
-            <!-- Campo de correo electrónico -->
-            <div class="mb-3">
-              <label for="userEmail" class="form-label">Email Address</label>
-              <input type="email" class="form-control" id="userEmail" value="{{ user.email }}" readonly>
+    <!-- Search Bar para filtrar archivos -->
+    <form method="GET" action="">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <input type="text" name="search" class="form-control" placeholder="{% trans 'Search files...' %}" value="{{ request.GET.search }}">
             </div>
-    
-            <!-- Botón para resetear la contraseña -->
-            <div class="mb-3">
-              <label for="resetPassword" class="form-label">Reset Password</label>
-              <form method="post" action="{% url 'reset_password' %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-dark">Reset Password</button>
-            </form>            
+            <div class="col-md-4">
+                <input type="date" name="date" class="form-control" value="{{ request.GET.date }}">
             </div>
+            <!-- Eliminamos el botón Filter -->
+        </div>
+    </form>
+  
+    <!-- Sección para mostrar los archivos -->
+    <div class="row">
+    {% for file in client_files %}
+      <div class="col-md-4 file-card" data-name="{{ file.basename }}" data-date="{{ file.uploaded_at|date:"Y-m-d" }}">
+        <div class="card mb-4">
+          <div class="card-body">
+            <!-- Hacer que el nombre del archivo sea un enlace -->
+            <h5 class="card-title">
+              <a href="{{ file.file.url }}" target="_blank">{{ file.basename }}</a>
+            </h5>
+            
+            <!-- Mostrar el nombre del proyecto al que pertenece el archivo -->
+            <p class="card-text">{% trans "Project:" %} {{ file.project.title }}</p>
+            
+            <!-- Fecha de subida -->
+            <p class="card-text">{% trans "Uploaded:" %} {{ file.uploaded_at }}</p>
+  
+            <!-- Dropdown Menu -->
+            <div class="dropdown">
+              <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton{{ file.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                {% trans "Actions" %}
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ file.id }}">
+                <!-- Descargar archivo -->
+                <li>
+                  <a class="dropdown-item" href="{{ file.file.url }}" download>{% trans "Download" %}</a>
+                </li>
+                <!-- Eliminar archivo -->
+                <li>
+                  <a class="dropdown-item text-danger" href="{% url 'client_project_file_delete_filesSection' file.id %}">{% trans "Delete" %}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
+    {% empty %}
+      <p>{% trans "No files found." %}</p>
+    {% endfor %}
     </div>
-
+  
   </div>
-<!-- Modal para añadir archivos -->
-<div class="modal fade" id="addFileModal" tabindex="-1" aria-labelledby="addFileModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addFileModalLabel">Añadir archivo</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="addFileForm" enctype="multipart/form-data">
-          <div class="mb-3">
-            <label for="fileInput" class="form-label">Selecciona un archivo</label>
-            <input class="form-control" type="file" id="fileInput" name="file">
-          </div>
-          <input type="hidden" id="projectId" name="project_id">
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Subir archivo</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal para mostrar opciones -->
-<div class="modal fade" id="fileActionModal" tabindex="-1" aria-labelledby="fileActionModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="fileActionModalLabel">¿Qué deseas hacer con el archivo?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Selecciona si deseas ver o eliminar el archivo.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="viewFileButton">Ver archivo</button>
-        <button type="button" class="btn btn-danger" id="deleteFileButton">Eliminar archivo</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 4. Modal for Creating a New Project -->
-<!-- 4. Modal for Creating a New Project -->
-<div class="modal fade" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content border-0" style="border-radius: 20px; overflow: hidden;">
-      <div class="modal-header bg-primary text-white py-4">
-        <h5 class="modal-title fs-2 fw-bold" id="createProjectModalLabel">Create New Project</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body px-5 py-4" style="background-color: #f4f6f9;">
-        <form method="POST" action="{% url 'create_project' %}" enctype="multipart/form-data">
-          <!-- CSRF Token for security -->
-          {% csrf_token %}
-
-          <!-- Project Form Fields with Bootstrap classes -->
-          <div class="mb-4">
-            <label for="id_title" class="form-label fs-5 text-primary">Project Title</label>
-            {{ project_form.title }}
-          </div>
-          <div class="mb-4">
-            <label for="id_description" class="form-label fs-5 text-primary">Project Description</label>
-            {{ project_form.description }}
-          </div>
-
-          <!-- Files Form Fields -->
-          <div class="mb-4">
-            <label for="projectFile" class="form-label fs-5 text-primary">Upload Files</label>
-            {{ formset.management_form }}
-            <div class="row g-3">
-              {% for form in formset %}
-                <div class="col-md-6">
-                  <div class="form-group bg-white p-3 shadow-sm rounded-3">
-                    {{ form.as_p }}
-                  </div>
-                </div>
-              {% endfor %}
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.querySelector('input[name="search"]');
+      const dateInput = document.querySelector('input[name="date"]');
+      const fileCards = document.querySelectorAll('.file-card');
+  
+      // Función para filtrar archivos
+      function filterFiles() {
+          const searchQuery = searchInput.value.toLowerCase();
+          const dateQuery = dateInput.value;
+  
+          fileCards.forEach(fileCard => {
+              const fileName = fileCard.getAttribute('data-name').toLowerCase();
+              const fileDate = fileCard.getAttribute('data-date');
+  
+              // Comparar el nombre y la fecha
+              const matchesSearch = fileName.includes(searchQuery);
+              const matchesDate = dateQuery === '' || fileDate === dateQuery;
+  
+              // Mostrar u ocultar la tarjeta según coincidan los criterios de búsqueda
+              if (matchesSearch && matchesDate) {
+                  fileCard.style.display = 'block';
+              } else {
+                  fileCard.style.display = 'none';
+              }
+          });
+      }
+  
+      // Event listeners para el filtrado
+      searchInput.addEventListener('input', filterFiles);
+      dateInput.addEventListener('input', filterFiles);
+  });
+  </script>
+  
+  <!------------------------------------------------------------------------------------ Account Settings ---------------------------------------------------------------------------------->
+  <!-- 3. Account Settings Section: User account details and settings -->
+  <div id="settingsSection" style="display:none;">
+    <h4>{% trans "Account Settings" %}</h4>
+    <div class="card">
+        <div class="card-body">
+            
+            <!-- Campo de nombre completo -->
+            <div class="mb-3">
+                <label for="userName" class="form-label">{% trans "User Name" %}</label>
+                <input type="text" class="form-control" id="userName" value="{{ user.first_name }} {{ user.last_name }}" readonly>
             </div>
-          </div>
-
-          <!-- Submit Button -->
-          <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary btn-lg shadow-sm" style="border-radius: 50px;">Create Project</button>
-          </div>
-        </form>
-      </div>
+  
+            <!-- Campo de correo electrónico -->
+            <div class="mb-3">
+                <label for="userEmail" class="form-label">{% trans "Email Address" %}</label>
+                <input type="email" class="form-control" id="userEmail" value="{{ user.email }}" readonly>
+            </div>
+  
+            <!-- Botón para resetear la contraseña y selección de idioma -->
+            <div class="mb-3 d-flex align-items-center">
+                <div>
+                    <label for="resetPassword" class="form-label">{% trans "Reset Password" %}</label>
+                    <form method="post" action="{% url 'reset_password' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-dark">{% trans "Reset Password" %}</button>
+                    </form>
+                </div>
+                
+                <!-- Selector de idioma -->
+                <form method="post" action="{% url 'set_language' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                  <div class="ms-3">
+                      <label for="languageSelect" class="form-label">{% trans "Select Language" %}</label>
+                      <select class="form-select" id="languageSelect" name="language" onchange="this.form.submit()">
+                          <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>{% trans "English" %}</option>
+                          <option value="es" {% if LANGUAGE_CODE == 'es' %}selected{% endif %}>{% trans "Español" %}</option>
+                      </select>
+                  </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-
+  </div>      
+<!------------------------------------------------------------------------------------ Account Settings ---------------------------------------------------------------------------------->
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -771,166 +677,7 @@ $(document).ready(function() {
 
     const csrftoken = getCookie('csrftoken'); // Aquí guardas el token en una variable
 
-    let currentFileUrl = '';
-    let currentFileId = '';
-
-    function showFileModal(fileUrl, fileId) {
-        // Guardamos la URL y el ID del archivo
-        currentFileUrl = fileUrl;
-        currentFileId = fileId;
-        // Mostramos el modal
-        var fileModal = new bootstrap.Modal(document.getElementById('fileActionModal'));
-        fileModal.show();
-    }
-
-    // Acciones del botón "Ver archivo"
-    document.getElementById('viewFileButton').addEventListener('click', function () {
-        window.open(currentFileUrl, '_blank'); // Abre el archivo en una nueva pestaña
-    });
-
-    // Acciones del botón "Eliminar archivo"
-    document.getElementById('deleteFileButton').addEventListener('click', function () {
-        deleteFile(currentFileId); // Llama a la función para eliminar el archivo
-    });
-
-    // Función para eliminar el archivo
-    function deleteFile(fileId) {
-        if (confirm('¿Estás seguro de que deseas eliminar este archivo?')) {
-            // Aquí iría la lógica para eliminar el archivo, por ejemplo, una solicitud fetch
-            alert('Archivo eliminado con éxito.');
-            // Puedes recargar la página o actualizar la lista de archivos después de eliminarlo
-        }
-    }
-
-    // Función para eliminar el archivo
-    function deleteFile(fileId) {
-        if (confirm('¿Estás seguro de que deseas eliminar este archivo?')) {
-            // Aquí realizarías la lógica para eliminar el archivo, por ejemplo, una solicitud fetch
-            alert('Archivo eliminado con éxito.');
-            // Puedes recargar la página o actualizar la lista de archivos después de eliminarlo
-        }
-    }
-
-    // Función para eliminar proyecto
-    function deleteProject(projectId) {
-   if (confirm('Are you sure you want to delete this project?')) {
-      fetch(`/project/${projectId}/delete/`, {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken  // Usamos el token CSRF
-         },
-      })
-      .then(response => {
-    console.log('Response:', response);  // Mostrar la respuesta en la consola del navegador
-    return response.json();
-})
-
-      .then(data => {
-         if (data.success) {
-            window.location.reload();  // Si la eliminación fue exitosa, recargamos la página
-         } else {
-            alert('There was an error deleting the project: ' + data.error);
-         }
-      })
-      .catch(error => {
-         console.error('Error:', error);
-         alert('There was an error processing your request.');
-      });
-   }
-}
-
-function deleteFile(fileId) {
-        if (confirm('¿Estás seguro de que quieres eliminar este archivo?')) {
-            fetch(`/delete-file/${fileId}/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}',  // Asegúrate de incluir el token CSRF para seguridad
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Archivo eliminado exitosamente.');
-                    location.reload();  // Recarga la página para actualizar la lista
-                } else {
-                    alert('Ocurrió un error al eliminar el archivo.');
-                }
-            })
-            .catch(error => {
-                console.error('Error al eliminar el archivo:', error);
-                alert('Ocurrió un error al eliminar el archivo.');
-            });
-        }
-    }
-    function filterProjects(order) {
-        let projectsContainer = document.getElementById('projectsContainer');
-        let projects = Array.from(projectsContainer.getElementsByClassName('card'));
-
-        // Ordenar los proyectos
-        projects.sort(function(a, b) {
-            let dateA = new Date(a.getAttribute('data-created-at'));
-            let dateB = new Date(b.getAttribute('data-created-at'));
-
-            if (order === 'asc') {
-                return dateA - dateB;
-            } else {
-                return dateB - dateA;
-            }
-        });
-
-        // Reordenar el DOM
-        projects.forEach(function(project) {
-            projectsContainer.appendChild(project);
-        });
-    }
-
-// Función para establecer el ID del proyecto
-function setProjectId(projectId) {
-      document.getElementById('projectId').value = projectId;  // Establece el valor del ID en un campo oculto
-  }
-
-  // Manejador del formulario de subida de archivos
-  document.getElementById('addFileForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      var projectId = document.getElementById('projectId').value;  // Obtener el ID del proyecto
-      var formData = new FormData(this);  // Usar FormData para manejar archivos
-
-      fetch(`/project/${projectId}/add_file/`, {  // Usar el ID del proyecto en la URL
-          method: 'POST',
-          headers: {
-              'X-CSRFToken': csrftoken  // Usar la función getCookie para obtener el CSRF token
-          },
-          body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              alert('Archivo subido con éxito.');
-              location.reload();  // Recargar la página para mostrar el archivo subido
-          } else {
-              alert('Error al subir el archivo: ' + data.error);
-          }
-      })
-      .catch(error => {
-          console.error('Error al subir el archivo:', error);
-          alert('Ocurrió un error al subir el archivo.');
-      });
-  });
-
-
-    // Function to toggle visibility of the project details
-    function toggleProjectDetails(projectId) {
-        var details = document.getElementById('project-details-' + projectId);
-        
-        // Toggle the visibility of the project details
-        if (details.style.display === "none") {
-            details.style.display = "block";
-        } else {
-            details.style.display = "none";
-        }
-    }
+  
   </script>
 </body>
 </html>

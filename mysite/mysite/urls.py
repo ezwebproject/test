@@ -21,7 +21,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from mysite.views import client_project_create
-
+from django.conf.urls.i18n import i18n_patterns
+from django.views.i18n import set_language
 
 urlpatterns = [
     path('', views.login_view, name='login'),  # Página de login en la raíz
@@ -76,7 +77,8 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'), name='password_reset_confirm'),
     path('reset-password-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
 
-
+    #Set language
+    path('set_language/', set_language, name='set_language'),
 
 ]
 if settings.DEBUG:

@@ -8,6 +8,7 @@
     pkgs.python3
     pkgs.postgresql_16
     pkgs.python310Packages.pip
+    pkgs.gettext
   ];
 
  

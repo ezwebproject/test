@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-
+from django.utils.translation import gettext_lazy as _
 import os
 from pathlib import Path
 # Mensajes de Django
@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -151,6 +152,24 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'hector.ramos2600@gmail.com'
-EMAIL_HOST_PASSWORD = 'pbvj nnes kcee epkb'
+EMAIL_HOST_USER = 'web.ez.project@gmail.com'
+EMAIL_HOST_PASSWORD = 'nzyx coee xxwe tjjc'
 DEFAULT_FROM_EMAIL = 'tu-email@gmail.com'
+
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
+
+# Idioma predeterminado
+LANGUAGE_CODE = 'es'
+
+# Idiomas soportados
+LANGUAGES = [
+    ('en', _('English')),
+    ('es', _('Spanish')),
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
+
