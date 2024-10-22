@@ -28,7 +28,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import get_language
 from django.utils.translation import get_language
-
+from .models import AdminProject, AdminProjectFile
 
 
 
@@ -235,11 +235,6 @@ def account_settings(request):
 
     return render(request, 'account_settings.html', {'form': form})
 
-@login_required    
-def delete_user(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    user.delete()  # Eliminar el usuario
-    return redirect('/admin/#ClientsSection')  # Redirige a la lista de clientes después de eliminar
 
 @login_required
 def admin_clients_projects(request):
@@ -336,12 +331,20 @@ def client_view(request):
     for file in client_files:
         file.basename = file.file.name.split('/')[-1]  # Dividir por '/' y obtener el último elemento
 
+ # Verificar si es la primera vez que el usuario ha ingresado
+    if 'welcome_shown' not in request.session:
+        show_welcome_modal = True
+        request.session['welcome_shown'] = True  # Marcar como mostrado
+    else:
+        show_welcome_modal = False
+
     return render(request, 'client.html', {
         'project_form': project_form,
         'formset': formset,
         'projects': projects,
         'client_files': client_files,  # Pasamos los archivos del cliente al template
         'LANGUAGE_CODE': get_language(),
+        'show_welcome_modal': show_welcome_modal  # Pasar la variable al template
     })
 
 
@@ -460,3 +463,194 @@ def client_download_project_files(request, project_id):
             zip_file.write(file_path, file_name)
 
     return response
+
+
+#########################################################################################################################################
+
+def is_admin(user):
+    return user.groups.filter(name='Admin').exists()
+
+
+@login_required
+def admin_view(request):
+    # Verificación si el usuario es admin
+    if not is_admin(request.user):
+        return HttpResponseForbidden("You do not have permission to access this page.")
+
+    # Cargar todos los proyectos de los clientes
+    projects = ClientProject.objects.all()
+    # Obtener todos los usuarios que están en el grupo "Client"
+    clients_group = Group.objects.get(name='Client')  # Asegúrate de que el grupo "Client" existe
+    clients = User.objects.filter(groups=clients_group)  # Filtrar usuarios en el grupo "Client"
+    client_files = ClientProjectFile.objects.all()  # Obtiene todos los archivos
+    supervisors_group = Group.objects.get(name='Supervisor')
+    admin_group = Group.objects.get(name='Admin')
+    
+    # Excluir el usuario logueado de la lista
+    supervisors = User.objects.filter(groups__in=[supervisors_group, admin_group]).exclude(id=request.user.id)
+
+    if request.method == 'POST':
+        # Aquí podrías manejar la creación de proyectos o algún otro formulario
+        pass
+
+    return render(request, 'admin.html', {
+        'projects': projects,
+         'clients': clients,
+          'client_files': client_files,
+           'supervisors': supervisors,
+    })
+
+    
+@login_required
+def admin_create_project(request):
+    clients = User.objects.filter(groups__name='Clients')  # Obtener todos los clientes
+
+    if request.method == 'POST':
+        # Usar el formulario correspondiente para ClientProject
+        form = ClientProjectForm(request.POST)  
+        files = request.FILES.getlist('files')  # Obtener los archivos
+
+        if form.is_valid():
+            # Guardar el proyecto en ClientProject
+            project = form.save(commit=False)
+            project.user = User.objects.get(id=request.POST['client_id'])  # Asigna el cliente seleccionado
+            project.save()  # Guarda el proyecto en el modelo ClientProject
+
+            # Guardar los archivos relacionados al proyecto
+            for file in files:
+                ClientProjectFile.objects.create(project=project, file=file)
+
+            # Redirigir a la lista de proyectos después de la creación
+            return redirect('admin')
+
+    return redirect('admin')
+
+
+
+
+def view_project_files(request, project_id):
+    # Obtener el proyecto y los archivos asociados
+    project = get_object_or_404(ClientProject, id=project_id)
+    files = ClientProjectFile.objects.filter(project=project)
+    
+    return render(request, 'view_project_files.html', {'project': project, 'files': files})
+
+
+
+def upload_project_files(request, project_id):
+    project = get_object_or_404(ClientProject, id=project_id)
+
+    if request.method == 'POST':
+        form = ClientProjectFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            file_instance = form.save(commit=False)
+            file_instance.project = project
+            file_instance.save()
+            return redirect('view_project_files', project_id=project.id)
+    
+    form = ClientProjectFileForm()
+    return render(request, 'upload_project_files.html', {'form': form, 'project': project})
+
+
+
+def download_project_files(request, project_id):
+    project = get_object_or_404(ClientProject, id=project_id)
+    files = ClientProjectFile.objects.filter(project=project)
+
+    zip_filename = f"{project.title}_files.zip"
+    response = HttpResponse(content_type='application/zip')
+    response['Content-Disposition'] = f'attachment; filename={zip_filename}'
+
+    with zipfile.ZipFile(response, 'w') as zip_file:
+        for project_file in files:
+            file_path = project_file.file.path
+            file_name = os.path.basename(file_path)
+            zip_file.write(file_path, file_name)
+
+    return response
+
+
+
+
+def delete_project(request, project_id):
+    project = get_object_or_404(ClientProject, id=project_id)
+    project.delete()
+    return redirect('admin_view')
+
+@login_required
+def project_upload_file(request, project_id):
+    project = get_object_or_404(ClientProject, id=project_id)
+
+    if request.method == 'POST':
+        form = ClientProjectFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            file_instance = form.save(commit=False)
+            file_instance.project = project
+            file_instance.save()
+            return redirect('admin_view')  # Redirigir a la vista principal del administrador
+
+    return redirect('admin_view')  # Si no es POST, redirigir al dashboard del administrador
+
+
+@login_required
+def admin_client_project_file_delete(request, file_id):
+    # Obtener el archivo del proyecto sin verificar el usuario, ya que es el administrador
+    project_file = get_object_or_404(ClientProjectFile, id=file_id)
+    
+    # Eliminar el archivo
+    project_file.delete()
+    
+    # Redirigir a la vista de administración de proyectos
+    return redirect(reverse('admin'))
+
+
+@login_required
+def admin_project_upload_files(request, project_id):
+    project = get_object_or_404(ClientProject, id=project_id)
+
+    if request.method == 'POST':
+        form = ClientProjectFileForm(request.POST, request.FILES)  # Asegúrate de incluir request.FILES
+        if form.is_valid():
+            file_instance = form.save(commit=False)
+            file_instance.project = project  # Asigna el proyecto actual
+            file_instance.save()
+            return redirect('admin')  # Redirigir después de subir los archivos
+        else:
+            print("Form errors:", form.errors)  # Imprime los errores del formulario para depurar
+
+    return redirect('admin')
+
+
+@login_required
+def admin_files_section_view(request):
+    # Aquí puedes filtrar o agregar lógica para los archivos que solo el admin puede ver
+    client_files = ClientProjectFile.objects.all()  # O filtrados según sea necesario
+    context = {
+        'client_files': client_files,
+    }
+    return render(request, 'admin.html', context)
+
+@login_required
+def admin_project_file_delete_filesSection(request, file_id):
+    file = get_object_or_404(ClientProjectFile, id=file_id)
+    file.delete()
+    return redirect('/admin/#filesSection')  # Redirigir a la sección de archivos
+
+
+@login_required
+def delete_user(request, user_id):
+    # Obtener el usuario que se va a eliminar
+    user = get_object_or_404(User, id=user_id)
+    
+    # Eliminar el usuario
+    user.delete()
+    
+    # Redirigir de vuelta a la página de clientes
+    return redirect('/admin/#ClientsSection')
+
+
+@login_required
+def delete_supervisor(request, supervisor_id):
+    supervisor = get_object_or_404(User, id=supervisor_id)
+    supervisor.delete()
+    return redirect('/admin/#supervisorSection')

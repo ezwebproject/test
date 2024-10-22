@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-14 03:58+0000\n"
+"POT-Creation-Date: 2024-10-17 22:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: mysite/settings.py:168 mysite/templates/client.html:585
+#: mysite/settings.py:174 mysite/templates/client.html:593
 msgid "English"
 msgstr "Inglés"
 
-#: mysite/settings.py:169
+#: mysite/settings.py:175
 msgid "Spanish"
 msgstr "Español"
 
-#: mysite/templates/client.html:150 mysite/templates/client.html:176
+#: mysite/templates/client.html:150 mysite/templates/client.html:180
 msgid "'s Dashboard"
 msgstr " Bienvenido "
 
@@ -34,211 +34,289 @@ msgstr " Bienvenido "
 msgid "Toggle navigation"
 msgstr "Alternar navegación"
 
-#: mysite/templates/client.html:158 mysite/templates/client.html:180
+#: mysite/templates/client.html:158 mysite/templates/client.html:184
 msgid "Projects"
 msgstr "Proyectos"
 
-#: mysite/templates/client.html:161 mysite/templates/client.html:183
+#: mysite/templates/client.html:161 mysite/templates/client.html:187
 msgid "Files"
 msgstr "Archivos"
 
-#: mysite/templates/client.html:164 mysite/templates/client.html:186
-#: mysite/templates/client.html:552
+#: mysite/templates/client.html:164 mysite/templates/client.html:190
+#: mysite/templates/client.html:560
 msgid "Account Settings"
 msgstr "Configuraciones"
 
-#: mysite/templates/client.html:167 mysite/templates/client.html:194
+#: mysite/templates/client.html:168 mysite/templates/client.html:194
+msgid "Help"
+msgstr "Ayuda"
+
+#: mysite/templates/client.html:171 mysite/templates/client.html:202
 msgid "Logout"
 msgstr "Cerrar Sesión"
 
-#: mysite/templates/client.html:204
+#: mysite/templates/client.html:212
 msgid "Your Projects"
 msgstr "Tus Proyectos"
 
-#: mysite/templates/client.html:208 mysite/templates/client.html:216
+#: mysite/templates/client.html:216 mysite/templates/client.html:224
 msgid "Create New Project"
 msgstr "Crear Nuevo Proyecto"
 
-#: mysite/templates/client.html:217 mysite/templates/client.html:306
-#: mysite/templates/client.html:335
+#: mysite/templates/client.html:225 mysite/templates/client.html:314
+#: mysite/templates/client.html:343
 msgid "Close"
 msgstr "Cerrar"
 
-#: mysite/templates/client.html:225
-#, fuzzy
-#| msgid "Projects"
+#: mysite/templates/client.html:233
 msgid "Project Title"
-msgstr "Proyectos"
+msgstr "Título del Proyecto"
 
-#: mysite/templates/client.html:231
+#: mysite/templates/client.html:239
 msgid "Project Description"
 msgstr "Descripcion del proyecto"
 
-#: mysite/templates/client.html:237 mysite/templates/client.html:279
-#: mysite/templates/client.html:344 mysite/templates/client.html:393
+#: mysite/templates/client.html:245 mysite/templates/client.html:287
+#: mysite/templates/client.html:352 mysite/templates/client.html:401
+#: mysite/templates/client.html:664
 msgid "Upload Files"
 msgstr "Subir Archivos"
 
-#: mysite/templates/client.html:247
+#: mysite/templates/client.html:255
 msgid "Create Project"
 msgstr "Crear Proyecto"
 
-#: mysite/templates/client.html:267 mysite/templates/client.html:386
-#: mysite/templates/client.html:492
+#: mysite/templates/client.html:275 mysite/templates/client.html:394
+#: mysite/templates/client.html:500
 msgid "Actions"
 msgstr "Acciones"
 
-#: mysite/templates/client.html:273 mysite/templates/client.html:390
+#: mysite/templates/client.html:281 mysite/templates/client.html:398
 msgid "View Files"
 msgstr "Ver Archivos"
 
-#: mysite/templates/client.html:285
+#: mysite/templates/client.html:293
 msgid "Download Files as ZIP"
 msgstr "Descargar Archivos como ZIP"
 
-#: mysite/templates/client.html:290 mysite/templates/client.html:396
+#: mysite/templates/client.html:298 mysite/templates/client.html:404
 msgid "Delete Project"
 msgstr "Eliminar Proyecto"
 
-#: mysite/templates/client.html:304
+#: mysite/templates/client.html:312
 #, python-format
 msgid "Files for %(project_title)s"
 msgstr "Archivos para %(project_title)s"
 
-#: mysite/templates/client.html:315 mysite/templates/client.html:501
+#: mysite/templates/client.html:323 mysite/templates/client.html:509
 msgid "Delete"
 msgstr "Eliminar"
 
-#: mysite/templates/client.html:320
+#: mysite/templates/client.html:328
 msgid "No files uploaded for this project."
 msgstr "No se han subido archivos para este proyecto."
 
-#: mysite/templates/client.html:333
+#: mysite/templates/client.html:341
 #, python-format
 msgid "Upload Files for %(project_title)s"
 msgstr "Subir Archivos para %(project_title)s"
 
-#: mysite/templates/client.html:341
+#: mysite/templates/client.html:349
 msgid "Select Files"
 msgstr "Seleccionar Archivos"
 
-#: mysite/templates/client.html:407
+#: mysite/templates/client.html:415
 msgid "Error creating project"
 msgstr "Error al crear el proyecto"
 
-#: mysite/templates/client.html:437
+#: mysite/templates/client.html:445
 msgid "Files uploaded successfully!"
 msgstr "Archivos subidos exitosamente!"
 
-#: mysite/templates/client.html:442
+#: mysite/templates/client.html:450
 msgid "Error uploading files"
 msgstr "Error al subir archivos"
 
-#: mysite/templates/client.html:446
+#: mysite/templates/client.html:454
 msgid "Error processing request"
 msgstr "Error al procesar la solicitud"
 
-#: mysite/templates/client.html:457
+#: mysite/templates/client.html:465
 msgid "Your Files"
 msgstr "Tus Archivos"
 
-#: mysite/templates/client.html:463
+#: mysite/templates/client.html:471
 msgid "Search files..."
 msgstr "Buscar archivos..."
 
-#: mysite/templates/client.html:484
+#: mysite/templates/client.html:492
 msgid "Project:"
 msgstr "Proyecto:"
 
-#: mysite/templates/client.html:487
+#: mysite/templates/client.html:495
 msgid "Uploaded:"
 msgstr "Subido:"
 
-#: mysite/templates/client.html:497
+#: mysite/templates/client.html:505
 msgid "Download"
 msgstr "Descargar"
 
-#: mysite/templates/client.html:509
+#: mysite/templates/client.html:517
 msgid "No files found."
 msgstr "No se encontraron archivos."
 
-#: mysite/templates/client.html:558
+#: mysite/templates/client.html:566
 msgid "User Name"
 msgstr "Nombre de Usuario"
 
-#: mysite/templates/client.html:564
+#: mysite/templates/client.html:572
 msgid "Email Address"
 msgstr "Dirección de Correo Electrónico"
 
-#: mysite/templates/client.html:571 mysite/templates/client.html:574
-#: mysite/templates/registration/password_reset_form.html:6
-#: mysite/templates/registration/password_reset_form.html:53
+#: mysite/templates/client.html:579 mysite/templates/client.html:582
+#: mysite/templates/registration/password_reset_form.html:7
+#: mysite/templates/registration/password_reset_form.html:55
 msgid "Reset Password"
 msgstr "Restablecer Contraseña"
 
-#: mysite/templates/client.html:583
+#: mysite/templates/client.html:591
 msgid "Select Language"
 msgstr "Seleccionar Idioma"
 
-#: mysite/templates/client.html:586
+#: mysite/templates/client.html:594
 msgid "Español"
 msgstr "Español"
 
-#: mysite/templates/registration/password_reset_complete.html:6
-#: mysite/templates/registration/password_reset_complete.html:35
+#: mysite/templates/client.html:608
+msgid "Contact for Help"
+msgstr "Contacto de ayuda"
+
+#: mysite/templates/client.html:609
+msgid "If you need assistance, you can contact the following person:"
+msgstr "Si necesita asistencia, puede contactar a la siguiente persona:"
+
+#: mysite/templates/client.html:614
+msgid "Architect:"
+msgstr "Arquitecto:"
+
+#: mysite/templates/client.html:621
+msgid "Phone:"
+msgstr "Teléfono:"
+
+#: mysite/templates/client.html:629
+msgid "Email:"
+msgstr "Correo electrónico:"
+
+#: mysite/templates/client.html:643
+msgid "Welcome!"
+msgstr "¡Bienvenido!"
+
+#: mysite/templates/client.html:647
+#, python-format
+msgid ""
+"\n"
+"            Welcome to your projects file manager dashboard, %(user_name)s! "
+"We're excited to have you on board.\n"
+"          "
+msgstr ""
+"\n"
+"            ¡Bienvenido a tu panel de administración de archivos de proyectos, %(user_name)s! "
+"Nos alegra tenerte con nosotros.\n"
+"          "
+
+#: mysite/templates/client.html:651
+msgid "Here's what you can do today:"
+msgstr "Esto es lo que puedes hacer hoy:"
+
+#: mysite/templates/client.html:657
+#, fuzzy
+#| msgid "Create Project"
+msgid "Create Projects"
+msgstr "Crear Proyectos"
+
+#: mysite/templates/client.html:658
+msgid "Start organizing your files by creating projects effortlessly."
+msgstr "Comienza a organizar tus archivos creando proyectos de manera sencilla."
+
+#: mysite/templates/client.html:665
+msgid "Quickly upload, store, and manage all your project files."
+msgstr "Sube, almacena y gestiona rápidamente todos tus archivos de proyectos."
+
+#: mysite/templates/client.html:671
+#, fuzzy
+#| msgid "Account Settings"
+msgid "Customize Settings"
+msgstr "Personalizar Configuraciones"
+
+#: mysite/templates/client.html:672
+msgid "Adjust your profile settings to suit your preferences."
+msgstr "Ajusta la configuración de tu perfil según tus preferencias."
+
+#: mysite/templates/client.html:678
+msgid "Let's Get Started!"
+msgstr "¡Comencemos!"
+
+#: mysite/templates/registration/password_reset_complete.html:7
+#: mysite/templates/registration/password_reset_complete.html:37
 msgid "Password Reset Complete"
 msgstr "Restablecimiento de Contraseña Completado"
 
-#: mysite/templates/registration/password_reset_complete.html:36
+#: mysite/templates/registration/password_reset_complete.html:38
 msgid ""
 "Your password has been successfully changed. You can now log in with your "
 "new password."
-msgstr "Tu contraseña ha sido cambiada exitosamente. Ahora puedes iniciar sesión con tu nueva contraseña."
+msgstr ""
+"Tu contraseña ha sido cambiada exitosamente. Ahora puedes iniciar sesión con "
+"tu nueva contraseña."
 
-#: mysite/templates/registration/password_reset_complete.html:38
+#: mysite/templates/registration/password_reset_complete.html:40
 msgid "Go to Login"
 msgstr "Ir a Iniciar Sesión"
 
-#: mysite/templates/registration/password_reset_confirm.html:6
-#: mysite/templates/registration/password_reset_confirm.html:53
+#: mysite/templates/registration/password_reset_confirm.html:7
+#: mysite/templates/registration/password_reset_confirm.html:55
 #, fuzzy
 #| msgid "Reset Password"
 msgid "Set New Password"
 msgstr "Establecer Nueva Contraseña"
 
-#: mysite/templates/registration/password_reset_confirm.html:61
+#: mysite/templates/registration/password_reset_confirm.html:63
 #, fuzzy
 #| msgid "Reset Password"
 msgid "Change Password"
 msgstr "Cambiar Contraseña"
 
-#: mysite/templates/registration/password_reset_done.html:6
-#: mysite/templates/registration/password_reset_done.html:43
+#: mysite/templates/registration/password_reset_done.html:7
+#: mysite/templates/registration/password_reset_done.html:44
 msgid "Password Reset Sent"
 msgstr "Restablecimiento de Contraseña Enviado"
 
-#: mysite/templates/registration/password_reset_done.html:44
+#: mysite/templates/registration/password_reset_done.html:45
 msgid "We've emailed you instructions for setting your password."
 msgstr "Te hemos enviado un correo electrónico con instrucciones para establecer tu contraseña."
 
-#: mysite/templates/registration/password_reset_done.html:45
+#: mysite/templates/registration/password_reset_done.html:46
 msgid ""
 "If you don't receive an email, please make sure you've entered the address "
 "you registered with and check your spam folder."
-msgstr "Si no recibes un correo electrónico, asegúrate de haber ingresado la dirección con la que te registraste y revisa tu carpeta de spam."
+msgstr ""
+"Si no recibes un correo electrónico, asegúrate de haber ingresado la dirección "
+"con la que te registraste y revisa tu carpeta de spam."
 
-#: mysite/templates/registration/password_reset_form.html:54
+#: mysite/templates/registration/password_reset_form.html:56
 msgid ""
 "Enter your email address below, and we'll send you a link to reset your "
 "password."
-msgstr "Ingresa tu dirección de correo electrónico a continuación y te enviaremos un enlace para restablecer tu contraseña."
+msgstr ""
+"Ingresa tu dirección de correo electrónico a continuación y te enviaremos un "
+"enlace para restablecer tu contraseña."
 
-#: mysite/templates/registration/password_reset_form.html:59
+#: mysite/templates/registration/password_reset_form.html:61
 #, fuzzy
 #| msgid "Email Address"
 msgid "Enter your email address"
 msgstr "Ingresa tu dirección de correo electrónico"
 
-#: mysite/templates/registration/password_reset_form.html:62
+#: mysite/templates/registration/password_reset_form.html:64
 msgid "Send Reset Link"
 msgstr "Enviar Enlace de Restablecimiento"

@@ -80,6 +80,32 @@ urlpatterns = [
     #Set language
     path('set_language/', set_language, name='set_language'),
 
+    path('admin/', views.admin_view, name='admin_view'),
+
+    # Otras rutas para ver, subir, descargar, y eliminar archivos
+    path('projects/<int:project_id>/view/', views.view_project_files, name='view_project_files'),
+    path('projects/<int:project_id>/upload/', views.upload_project_files, name='upload_project_files'),
+    path('projects/<int:project_id>/download/', views.download_project_files, name='download_project_files'),
+    path('projects/<int:project_id>/delete/', views.delete_project, name='delete_project'),
+    path('admin/create_project/', views.admin_create_project, name='admin_create_project'),
+    path('admin/project/<int:project_id>/files/', views.view_project_files, name='view_project_files'),
+    path('admin/project/<int:project_id>/upload/', views.upload_project_files, name='upload_project_files'),
+    path('admin/project/<int:project_id>/download/', views.download_project_files, name='download_project_files'),
+    path('admin/project/<int:project_id>/delete/', views.delete_project, name='delete_project'),
+    # urls.py
+path('admin/project/<int:project_id>/upload/', views.project_upload_file, name='project_upload_file'),
+
+   path('admin/file/<int:file_id>/delete/', views.admin_client_project_file_delete, name='admin_client_project_file_delete'),
+   path('admin/project/<int:project_id>/upload_files/', views.admin_project_upload_files, name='admin_project_upload_files'),
+
+path('admin/files/', views.admin_files_section_view, name='admin_files_section'),
+    path('admin/files/delete/<int:file_id>/', views.admin_project_file_delete_filesSection, name='admin_project_file_delete_filesSection'),
+
+     path('admin/file/<int:file_id>/delete/', views.admin_project_file_delete_filesSection, name='admin_project_file_delete'),
+     path('delete-user/<int:user_id>/', views.delete_user, name='delete_user'),
+path('delete-supervisor/<int:supervisor_id>/', views.delete_supervisor, name='delete_supervisor'),
+
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

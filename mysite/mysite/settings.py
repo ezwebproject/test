@@ -113,9 +113,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# settings.py
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Asegúrate de tener este ajuste
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LANGUAGE_CODE = 'en-us'
 

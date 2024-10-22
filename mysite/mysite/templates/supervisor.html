@@ -165,10 +165,7 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#ClientsSection" id="ClientsLinkMobile">Clients</a>
-            <li class="nav-item">
-         
-              <a class="nav-link" href="#supervisorSection" id="supervisorLinkMobile">Management Team</a>
-            </li>
+
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#settingsSection" id="settingsLinkMobile">Account Settings</a>
@@ -193,10 +190,6 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
       </li>
       <li class="nav-item">
         <a href="#ClientsSection" class="nav-link" id="ClientsLink">Clients</a>
-      </li>
-      <li class="nav-item">
-   
-        <a href="#supervisorSection" class="nav-link" id="supervisorLink">Management Team</a>
       </li>
       <li class="nav-item">
         <a href="#settingsSection" class="nav-link" id="settingsLink">Account Settings</a>
@@ -572,7 +565,7 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
         </tbody>
       </table>
     </div>
-
+ 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
       const clientSearchInput = document.getElementById('clientSearchInput');
@@ -597,89 +590,7 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
     
     </script>
 
-     <!-------------------------------------------------------------- Supervisors ----------------------------------------------------------------> 
-     <div id="supervisorSection" style="display:none;">
-      <h2>Management Team</h2>
-      <button class="btn mb-3 me-3" style="background-color: black; color: white;" data-bs-toggle="modal" data-bs-target="#addSupervisorModal">Add member</button>
-      
-      <!-- Campo de búsqueda -->
-      <div class="mb-3">
-        <input type="text" id="supervisorSearchInput" class="form-control" placeholder="Search by name or email...">
-      </div>
-      
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="supervisorList">
-          {% for supervisor in supervisors %}
-          <tr class="supervisor-item">
-            <td>{{ supervisor.first_name }} {{ supervisor.last_name }}</td>
-            <td>{{ supervisor.email }}</td>
-            <td>
-              <a href="{% url 'delete_supervisor' supervisor.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this supervisor?');">Delete</a>
-            </td>
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="3">No management team members found</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-  </div>
-  
-  <!-- Modal para añadir un nuevo supervisor -->
-  <div class="modal fade" id="addSupervisorModal" tabindex="-1" aria-labelledby="addSupervisorModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addSupervisorModalLabel">Add New Supervisor</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="addSupervisorForm">
-            <div class="mb-3">
-              <label for="supervisorName" class="form-label">Name</label>
-              <input type="text" class="form-control" id="supervisorName" required>
-            </div>
-            <div class="mb-3">
-              <label for="supervisorEmail" class="form-label">Email</label>
-              <input type="email" class="form-control" id="supervisorEmail" required>
-            </div>
-            <button type="submit" class="btn" style="background-color: black; color: white;">Add member</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-<script>
-// Búsqueda de supervisores
-document.getElementById('supervisorSearchInput').addEventListener('input', function() {
-    let searchQuery = this.value.toLowerCase();
-    let supervisorItems = document.querySelectorAll('.supervisor-item');
-    
-    supervisorItems.forEach(function(item) {
-        let name = item.querySelector('td:first-child').textContent.toLowerCase();
-        let email = item.querySelector('td:nth-child(2)').textContent.toLowerCase();
-        
-        if (name.includes(searchQuery) || email.includes(searchQuery)) {
-            item.style.display = '';
-        } else {
-            item.style.display = 'none';
-        }
-    });
-});
-
-</script>
-
-<!-------------------------------------------------------------- Supervisors ----------------------------------------------------------------> 
-
+    <!-------------------------------------------------------------- Clients ----------------------------------------------------------------> 
 
   <!-- Modals -->
   <div class="modal fade" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true">
@@ -760,20 +671,16 @@ const projectsLink = document.getElementById('projectsLink');
 const filesLink = document.getElementById('filesLink');
 const settingsLink = document.getElementById('settingsLink');
 const ClientsLink = document.getElementById('ClientsLink');
-const supervisorLink = document.getElementById('supervisorLink');
 
 const projectsLinkMobile = document.getElementById('projectsLinkMobile');
 const filesLinkMobile = document.getElementById('filesLinkMobile');
 const settingsLinkMobile = document.getElementById('settingsLinkMobile');
 const ClientsLinkMobile = document.getElementById('ClientsLinkMobile');
-const supervisorLinkMobile = document.getElementById('supervisorLinkMobile');
 
 const projectsSection = document.getElementById('projectsSection');
 const filesSection = document.getElementById('filesSection');
 const settingsSection = document.getElementById('settingsSection');
 const ClientsSection = document.getElementById('ClientsSection');
-const supervisorSection = document.getElementById('supervisorSection');
-
 
 const projectFilesList = document.getElementById('projectFilesList');
 
@@ -815,11 +722,6 @@ ClientsLink.addEventListener('click', function () {
   setActiveLink(ClientsLink);
 });
 
-supervisorLink.addEventListener('click', function () {   // Añadir navegación para supervisores
-  showSection(supervisorSection);
-  setActiveLink(supervisorLink);
-});
-
 // Mobile Navbar Navigation
 projectsLinkMobile.addEventListener('click', function () {
   showSection(projectsSection);
@@ -835,10 +737,6 @@ settingsLinkMobile.addEventListener('click', function () {
 
 ClientsLinkMobile.addEventListener('click', function () {
   showSection(ClientsSection);
-});
-
-supervisorLinkMobile.addEventListener('click', function () {  // Añadir navegación móvil para supervisores
-  showSection(supervisorSection);
 });
 
 // Handle URL hash on page load
@@ -857,9 +755,6 @@ document.addEventListener('DOMContentLoaded', function() {
   } else if (hash === '#ClientsSection') {
     showSection(ClientsSection);
     setActiveLink(ClientsLink);
-  } else if (hash === '#supervisorSection') {  // Añadir manejo de hash para supervisores
-    showSection(supervisorSection);
-    setActiveLink(supervisorLink);
   } else {
     showSection(projectsSection);
     setActiveLink(projectsLink); // Default to projects section
@@ -868,7 +763,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Function to show a section and hide others
 function showSection(section) {
-  const sections = [projectsSection, filesSection, settingsSection, ClientsSection,supervisorSection];
+  const sections = [projectsSection, filesSection, settingsSection, ClientsSection];
   
   // Hide all sections
   sections.forEach(function(sec) {
@@ -885,7 +780,6 @@ function setActiveLink(activeLink) {
   filesLink.classList.remove('active');
   settingsLink.classList.remove('active');
   ClientsLink.classList.remove('active');
-  supervisorLink.classList.remove('active')
   
   activeLink.classList.add('active');
 }

@@ -65,3 +65,24 @@ class ClientProjectFile(models.Model):
 
     def __str__(self):
         return f"{self.file.name} for {self.project.title}"
+
+###########################################################################################################################
+# Modelo para los proyectos gestionados por el administrador
+class AdminProject(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    assigned_client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_projects')
+
+    def __str__(self):
+        return f"{self.title} (Assigned to: {self.assigned_client.username})"
+
+# Modelo para los archivos asociados a los proyectos gestionados por el administrador
+class AdminProjectFile(models.Model):
+    project = models.ForeignKey(AdminProject, on_delete=models.CASCADE, related_name='admin_files')
+    file = models.FileField(upload_to='admin_project_files/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.file.name} (Project: {self.project.title})"
