@@ -30,7 +30,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),  # Ruta para logout
     path('client/', views.client_view, name='client'),
     path('admin/', views.admin_view, name='admin'),
-    path('employee/', views.employee_view, name='employee'),
+    path('supervisor/', views.supervisor_view, name='supervisor'),
     path('register/', views.register_view, name='register'),
     path('delete-file/<int:file_id>/', views.delete_file, name='delete_file'),
     path('project/<int:project_id>/add_file/', views.add_file_to_project, name='add_file_to_project'),
@@ -104,6 +104,10 @@ path('admin/files/', views.admin_files_section_view, name='admin_files_section')
      path('admin/file/<int:file_id>/delete/', views.admin_project_file_delete_filesSection, name='admin_project_file_delete'),
      path('delete-user/<int:user_id>/', views.delete_user, name='delete_user'),
 path('delete-supervisor/<int:supervisor_id>/', views.delete_supervisor, name='delete_supervisor'),
+ path('add-supervisor/', views.add_supervisor, name='add_supervisor'),
+  path('change-group/<int:user_id>/', views.change_group, name='change_group'),
+  path('add-client/', views.add_client, name='add_client'),
+
 
 
 ]

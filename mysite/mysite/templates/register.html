@@ -11,111 +11,204 @@
 
   <!-- Custom styles -->
   <style>
-    body {
-      background-color: #f8f9fa;
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
     }
+
+    .container-fluid {
+      display: flex;
+      height: 100vh;
+      flex-wrap: wrap;
+    }
+
+    .left-section {
+      background-color: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      width: 50%;
+      position: relative;
+    }
+
+    /* Estilo del logo */
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 100px;
+      filter: grayscale(100%);
+    }
+
+    .right-section {
+      background: linear-gradient(135deg, #333 0%, #000 100%);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      width: 50%;
+      text-align: center;
+    }
+
+    .right-section h2 {
+      font-size: 3.5rem;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .right-section p {
+      font-size: 1.25rem;
+      margin-bottom: 30px;
+    }
+
     .card {
       border-radius: 10px;
       width: 100%;
       max-width: 400px;
-      margin: 20px auto;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 30px;
     }
-    .form-label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-    .form-control {
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 1.2rem;
-      font-size: 1rem;
-    }
+
     .btn-success {
-      background-color: #28a745;
-      border-radius: 8px;
-      font-size: 1rem;
-      padding: 10px;
+      background: linear-gradient(90deg, #333, #000);
+      border: none;
     }
+
     .btn-success:hover {
-      background-color: #218838;
+      background: linear-gradient(90deg, #000, #333);
     }
-    .text-center a {
-      color: #007bff;
-      text-decoration: none;
+
+    .text-small {
+      font-size: 0.85rem;
     }
-    .text-center a:hover {
-      text-decoration: underline;
+
+    /* Media Query para pantallas más pequeñas */
+    @media (max-width: 768px) {
+      .container-fluid {
+        flex-direction: column;
+      }
+      .left-section, .right-section {
+        width: 100%;
+      }
+
+      .right-section {
+        padding: 20px;
+      }
+
+      .right-section h2 {
+        font-size: 2.5rem;
+      }
+
+      .right-section p {
+        font-size: 1rem;
+      }
+
+      /* Ocultar el logo en pantallas pequeñas */
+      .logo {
+        display: none;
+      }
     }
-    .form-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-    .errorlist {
-      color: red;
-      font-size: 0.875rem;
+
+    /* Media Query para pantallas de teléfonos */
+    @media (max-width: 576px) {
+      .right-section {
+        display: none; /* Ocultar la parte de la derecha en teléfonos */
+      }
+
+      .left-section {
+        background: linear-gradient(135deg, #333 0%, #000 100%); /* Gradiente negro como fondo en pantallas pequeñas */
+        width: 100%;
+      }
+
+      .card {
+        background-color: #f8f9fa; /* Fondo blanco para el formulario */
+        padding: 30px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); /* Ajuste de sombra */
+      }
+
+      .right-section h2 {
+        font-size: 2.2rem;
+      }
+
+      .right-section p {
+        font-size: 0.9rem;
+      }
+
+      .card {
+        max-width: 350px;
+      }
     }
   </style>
 </head>
 <body>
-
-  <div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4">
-      <!-- Create Account Form -->
-      <form method="POST">
-        <!-- CSRF Token for security -->
-        {% csrf_token %}
-        <h2 class="text-center form-title">Create an Account</h2>
-
-        
+  {% load static %}
+  <div class="container-fluid">
+    <!-- Left Section: Register Form -->
+    <div class="left-section">
+      <img src="{% static 'img/logo.jpeg' %}" alt="Logo" class="logo">
       
+      <div class="card">
+        <form method="POST">
+          {% csrf_token %}
+          <h2 class="text-center mb-4">Create an Account</h2>
 
-        <!-- Display non-field errors -->
-        {% if form.non_field_errors %}
-          <div class="alert alert-danger">
-            {{ form.non_field_errors }}
+          <!-- Display form errors if any -->
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          <!-- Form Fields -->
+          <div class="mb-3">
+            <label for="id_first_name" class="form-label">First Name</label>
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
           </div>
-        {% endif %}
 
-        <div class="mb-3">
-          <label for="id_first_name" class="form-label">First Name</label>
-          {{ form.first_name }}
-          {{ form.first_name.errors }}
-        </div>
+          <div class="mb-3">
+            <label for="id_last_name" class="form-label">Last Name</label>
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+          </div>
 
-        <div class="mb-3">
-          <label for="id_last_name" class="form-label">Last Name</label>
-          {{ form.last_name }}
-          {{ form.last_name.errors }}
-        </div>
+          <div class="mb-3">
+            <label for="id_email" class="form-label">Email address</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+          </div>
 
-        <div class="mb-3">
-          <label for="id_email" class="form-label">Email address</label>
-          {{ form.email }}
-          {{ form.email.errors }}
-        </div>
+          <div class="mb-3">
+            <label for="id_password1" class="form-label">Password</label>
+            {{ form.password1 }}
+            {{ form.password1.errors }}
+          </div>
 
-        <div class="mb-3">
-          <label for="id_password1" class="form-label">Password</label>
-          {{ form.password1 }}
-          {{ form.password1.errors }}
-        </div>
+          <div class="mb-3">
+            <label for="id_password2" class="form-label">Confirm Password</label>
+            {{ form.password2 }}
+            {{ form.password2.errors }}
+          </div>
 
-        <div class="mb-3">
-          <label for="id_password2" class="form-label">Confirm Password</label>
-          {{ form.password2 }}
-          {{ form.password2.errors }}
-        </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-success">Create Account</button>
+          </div>
 
-        <div class="d-grid gap-2">
-          <button type="submit" class="btn btn-success">Create Account</button>
-        </div>
-        <div class="mt-3 text-center">
-          <span>Already have an account? <a href="{% url 'login' %}">Login</a></span>
-        </div>
-      </form>
+          <div class="mt-3 text-center text-small">
+            <span>Already have an account? <a href="{% url 'login' %}">Login</a></span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Section: Promotional Content -->
+    <div class="right-section">
+      <h2>JRH ARCHITECTS</h2>
+      <p>Building the future with precision and vision. Your dream spaces designed to perfection.</p>
     </div>
   </div>
 

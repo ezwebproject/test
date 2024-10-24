@@ -27,10 +27,10 @@ from .forms import ProjectFileForm  # Asegúrate de tener un formulario para arc
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import get_language
-from django.utils.translation import get_language
 from .models import AdminProject, AdminProjectFile
-
-
+from django.core.mail import send_mail
+from django.conf import settings
+from .models import ActivityLog
 
 def login_view(request):
     if request.method == 'POST':
@@ -50,11 +50,13 @@ def login_view(request):
                 return redirect('admin')  # Redirect to /admin/
             elif user.groups.filter(name='Client').exists():
                 return redirect('client')  # Redirect to /client/
+            elif user.groups.filter(name='Supervisor').exists():
+                return redirect('supervisor')  # Redirect to /supervisor/
             else:
                 return render(request, 'access_denied.html')
         else:
             # If authentication fails, return the login page with an error message
-            return render(request, 'login.html', {'error': 'Invalid email or password.'})
+            return render(request, 'login.html', {'error': 'Invalid email, password or email not exist.'})
 
     return render(request, 'login.html')
 
@@ -372,6 +374,8 @@ def client_project_create(request):
             project.user = request.user  # Asignamos el usuario autenticado al proyecto
             project.save()  # Guardamos el proyecto
 
+            ActivityLog.objects.create(user=request.user, action=f"Creo un nuevo proyecto: {project.title}")
+
             # Guardamos los archivos
             for form in formset.cleaned_data:
                 if form:
@@ -395,6 +399,7 @@ def client_project_create(request):
 @login_required
 def client_project_delete(request, project_id):
     project = get_object_or_404(ClientProject, id=project_id, user=request.user)
+    ActivityLog.objects.create(user=request.user, action=f"Elimino el proyecto {project.title}")
     project.delete()
     return redirect('client_view')
 
@@ -468,7 +473,7 @@ def client_download_project_files(request, project_id):
 #########################################################################################################################################
 
 def is_admin(user):
-    return user.groups.filter(name='Admin').exists()
+    return user.groups.filter(name__in=['Admin', 'Supervisor']).exists()
 
 
 @login_required
@@ -488,16 +493,30 @@ def admin_view(request):
     
     # Excluir el usuario logueado de la lista
     supervisors = User.objects.filter(groups__in=[supervisors_group, admin_group]).exclude(id=request.user.id)
-
+    logs = ActivityLog.objects.all().order_by('-timestamp')
+    user = request.user
+      # Determinar el rol del usuario
+     # Determinar el rol del usuario
+    if user.groups.filter(name='Admin').exists():
+        role = 'Admin'
+    elif user.groups.filter(name='Supervisor').exists():
+        role = 'Supervisor'
+    else:
+        role = 'Client'  # Si el usuario no está en los grupos "Admin" ni "Supervisor"
+        
     if request.method == 'POST':
         # Aquí podrías manejar la creación de proyectos o algún otro formulario
         pass
 
     return render(request, 'admin.html', {
         'projects': projects,
-         'clients': clients,
-          'client_files': client_files,
-           'supervisors': supervisors,
+        'clients': clients,
+        'client_files': client_files,
+        'supervisors': supervisors,
+        'user': user,  # Pasar el objeto usuario al contexto
+        'role': role,
+        'logs': logs,  # Pasar el rol al contexto
+        'LANGUAGE_CODE': get_language(),
     })
 
     
@@ -515,7 +534,8 @@ def admin_create_project(request):
             project = form.save(commit=False)
             project.user = User.objects.get(id=request.POST['client_id'])  # Asigna el cliente seleccionado
             project.save()  # Guarda el proyecto en el modelo ClientProject
-
+            full_name = f"{project.user.first_name} {project.user.last_name}"
+            ActivityLog.objects.create(user=request.user, action=f"Creo un nuevo proyecto para el cliente {full_name}")
             # Guardar los archivos relacionados al proyecto
             for file in files:
                 ClientProjectFile.objects.create(project=project, file=file)
@@ -527,7 +547,7 @@ def admin_create_project(request):
 
 
 
-
+@login_required
 def view_project_files(request, project_id):
     # Obtener el proyecto y los archivos asociados
     project = get_object_or_404(ClientProject, id=project_id)
@@ -536,7 +556,7 @@ def view_project_files(request, project_id):
     return render(request, 'view_project_files.html', {'project': project, 'files': files})
 
 
-
+@login_required
 def upload_project_files(request, project_id):
     project = get_object_or_404(ClientProject, id=project_id)
 
@@ -552,7 +572,7 @@ def upload_project_files(request, project_id):
     return render(request, 'upload_project_files.html', {'form': form, 'project': project})
 
 
-
+@login_required
 def download_project_files(request, project_id):
     project = get_object_or_404(ClientProject, id=project_id)
     files = ClientProjectFile.objects.filter(project=project)
@@ -571,10 +591,15 @@ def download_project_files(request, project_id):
 
 
 
-
+@login_required
 def delete_project(request, project_id):
     project = get_object_or_404(ClientProject, id=project_id)
+    projectname = ClientProject.objects.get(id=project_id)
+    project_name = project.title
+    user = get_object_or_404(User, id=project.user_id)
+    full_name = f"{user.first_name} {user.last_name}"
     project.delete()
+    ActivityLog.objects.create(user=request.user, action=f"Elimino el proyecto {project_name} del cliente {full_name}")
     return redirect('admin_view')
 
 @login_required
@@ -641,10 +666,10 @@ def admin_project_file_delete_filesSection(request, file_id):
 def delete_user(request, user_id):
     # Obtener el usuario que se va a eliminar
     user = get_object_or_404(User, id=user_id)
-    
+    full_name = f"{user.first_name} {user.last_name}"
     # Eliminar el usuario
     user.delete()
-    
+    ActivityLog.objects.create(user=request.user, action=f"Elimino al cliente {full_name}")
     # Redirigir de vuelta a la página de clientes
     return redirect('/admin/#ClientsSection')
 
@@ -652,5 +677,127 @@ def delete_user(request, user_id):
 @login_required
 def delete_supervisor(request, supervisor_id):
     supervisor = get_object_or_404(User, id=supervisor_id)
+    full_name = f"{supervisor.first_name} {supervisor.last_name}"
+    ActivityLog.objects.create(user=request.user, action=f"Elimino al miembro {full_name}")
     supervisor.delete()
     return redirect('/admin/#supervisorSection')
+
+
+@login_required
+def add_supervisor(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        password = request.POST['password']
+        group_name = request.POST['group']  # 'admin' o 'supervisor'
+        ActivityLog.objects.create(user=request.user, action=f"Creo un nuevo miembro {name}")
+         # Enviar el correo electrónico con el enlace
+        subject = 'Invitacion a la plataforma JRH Architects'
+        message = f'Hola {name},\n\nHas sido invitado a colaborar y gestionar los archivos de los clientes de nuestra compania JRH Architects.\n\nPor favor, haz clic en el siguiente enlace y accede a tu cuenta para comenzar:\n\nUsername: {email}\nPassword: {password}\n\nhttps://ezwebproject.pythonanywhere.com/\n\nSaludos cordiales,\nJRH Architects'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [email]
+        send_mail(subject, message, from_email, recipient_list)
+
+        # Crear el usuario
+        user = User.objects.create_user(
+            username=email,  # Usa el email como username
+            email=email,
+            password=password,
+            first_name=name.split()[0],
+            last_name=" ".join(name.split()[1:])
+
+        )
+
+        # Asignar el usuario al grupo correspondiente
+        group = Group.objects.get(name=group_name.capitalize())
+        user.groups.add(group)
+        
+
+
+        return redirect('/admin/#supervisorSection')
+
+    return render(request, 'admin.html')  # Asegúrate de que redirija correctamente después de añadir el supervisor.
+
+@login_required
+def change_group(request, user_id):
+    if request.method == 'POST':
+        user = get_object_or_404(User, id=user_id)
+        new_group_name = request.POST['group']  # 'admin' o 'supervisor'
+        full_name = f"{user.first_name} {user.last_name}"
+        ActivityLog.objects.create(user=request.user, action=f"Cambio el rol de miembro {full_name}")
+
+        # Eliminar al usuario de sus grupos actuales
+        user.groups.clear()
+
+        # Asignar el usuario al nuevo grupo
+        new_group = Group.objects.get(name=new_group_name.capitalize())
+        user.groups.add(new_group)
+        
+    return redirect('/admin/#supervisorSection')
+
+
+@login_required
+def add_client(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+
+    
+        # Enviar el correo electrónico con el enlace
+        subject = 'Invitacion a la plataforma JRH Architects'
+        message = f'Hola {name},\n\nHas sido invitado a registrarte y gestionar los archivos de tu proyecto en nuestra plataforma.\n\nPor favor, haz clic en el siguiente enlace para completar tu registro y comenzar a subir archivos:\n\nhttps://ezwebproject.pythonanywhere.com/\n\nSaludos cordiales,\nJRH Architects'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [email]
+
+        send_mail(subject, message, from_email, recipient_list)
+
+        ActivityLog.objects.create(user=request.user, action=f"Invito a un nuevo cliente: {name} ({email})")
+
+        # Redirigir a la lista de clientes
+        return redirect('/admin/#ClientsSection')
+
+
+    return render(request, '/admin/#ClientsSection')
+
+@login_required
+def supervisor_view(request):
+    # Verificación si el usuario es admin
+    if not is_admin(request.user):
+        return HttpResponseForbidden("You do not have permission to access this page.")
+
+    # Cargar todos los proyectos de los clientes
+    projects = ClientProject.objects.all()
+    # Obtener todos los usuarios que están en el grupo "Client"
+    clients_group = Group.objects.get(name='Client')  # Asegúrate de que el grupo "Client" existe
+    clients = User.objects.filter(groups=clients_group)  # Filtrar usuarios en el grupo "Client"
+    client_files = ClientProjectFile.objects.all()  # Obtiene todos los archivos
+    supervisors_group = Group.objects.get(name='Supervisor')
+    admin_group = Group.objects.get(name='Admin')
+    
+    # Excluir el usuario logueado de la lista
+    supervisors = User.objects.filter(groups__in=[supervisors_group, admin_group]).exclude(id=request.user.id)
+    logs = ActivityLog.objects.all().order_by('-timestamp')
+    user = request.user
+      # Determinar el rol del usuario
+     # Determinar el rol del usuario
+    if user.groups.filter(name='Admin').exists():
+        role = 'Admin'
+    elif user.groups.filter(name='Supervisor').exists():
+        role = 'Supervisor'
+    else:
+        role = 'Client'  # Si el usuario no está en los grupos "Admin" ni "Supervisor"
+        
+    if request.method == 'POST':
+        # Aquí podrías manejar la creación de proyectos o algún otro formulario
+        pass
+
+    return render(request, 'supervisor.html', {
+        'projects': projects,
+        'clients': clients,
+        'client_files': client_files,
+        'supervisors': supervisors,
+        'user': user,  # Pasar el objeto usuario al contexto
+        'role': role,
+        'logs': logs,  # Pasar el rol al contexto
+        'LANGUAGE_CODE': get_language(),
+    })

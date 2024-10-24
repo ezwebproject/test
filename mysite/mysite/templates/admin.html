@@ -145,36 +145,42 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
   </style>
 </head>
 <body>
-
+  {% load static %}
   {% load i18n %}
   <!-- Navbar for mobile devices -->
   <nav class="navbar navbar-expand-lg navbar-light d-lg-none">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" style="color: black;">Admin</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="#">
+        <img src="{% static 'img/logo.jpeg' %}" alt="Logo" class="logo" style="max-width: 100px;filter: grayscale(100%);">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
         <span class="navbar-toggler-icon"></span>
-
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#projectsSection" id="projectsLinkMobile">Projects</a>
+            <a class="nav-link active" aria-current="page" href="#projectsSection" id="projectsLinkMobile">{% trans 'Projects' %}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#filesSection" id="filesLinkMobile">Files</a>
+            <a class="nav-link" href="#filesSection" id="filesLinkMobile">{% trans 'Files' %}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#ClientsSection" id="ClientsLinkMobile">Clients</a>
-            <li class="nav-item">
-         
-              <a class="nav-link" href="#supervisorSection" id="supervisorLinkMobile">Management Team</a>
-            </li>
+            <a class="nav-link" href="#ClientsSection" id="ClientsLinkMobile">{% trans 'Clients' %}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#settingsSection" id="settingsLinkMobile">Account Settings</a>
+            <a class="nav-link" href="#supervisorSection" id="supervisorLinkMobile">{% trans 'Management Team' %}</a>
           </li>
           <li class="nav-item">
-            <button class="btn logout-btn w-100 mt-3">Logout</button>
+            <a class="nav-link" href="#settingsSection" id="settingsLinkMobile">{% trans 'Account Settings' %}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#logSection" id="logLinkMobile">{% trans 'Activity Log' %}</a>
+          </li>
+          <li class="nav-item">
+            <form method="POST" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-dark logout-btn">{% trans 'Logout' %}</button>
+            </form>
           </li>
         </ul>
       </div>
@@ -183,45 +189,52 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
 
   <!-- Sidebar for larger screens -->
   <nav class="sidebar d-flex flex-column p-3 d-none d-md-block">
-    <h2 class="text-black mb-4">Admin</h2>
+    <img src="{% static 'img/logo.jpeg' %}" alt="Logo" class="logo" style="max-width: 100px;filter: grayscale(100%);">
+
     <ul class="nav flex-column mb-auto">
       <li class="nav-item">
-        <a href="#projectsSection" class="nav-link active" id="projectsLink">Projects</a>
+        <a href="#projectsSection" class="nav-link active" id="projectsLink">{% trans 'Projects' %}</a>
       </li>
       <li class="nav-item">
-        <a href="#filesSection" class="nav-link" id="filesLink">Files</a>
+        <a href="#filesSection" class="nav-link" id="filesLink">{% trans 'Files' %}</a>
       </li>
       <li class="nav-item">
-        <a href="#ClientsSection" class="nav-link" id="ClientsLink">Clients</a>
+        <a href="#ClientsSection" class="nav-link" id="ClientsLink">{% trans 'Clients' %}</a>
       </li>
       <li class="nav-item">
-   
-        <a href="#supervisorSection" class="nav-link" id="supervisorLink">Management Team</a>
+        <a href="#supervisorSection" class="nav-link" id="supervisorLink">{% trans 'Management Team' %}</a>
       </li>
       <li class="nav-item">
-        <a href="#settingsSection" class="nav-link" id="settingsLink">Account Settings</a>
+        <a href="#settingsSection" class="nav-link" id="settingsLink">{% trans 'Account Settings' %}</a>
+      </li>
+      <li class="nav-item">
+        <a href="#logSection" class="nav-link" id="logLink">{% trans 'Activity Log' %}</a>
       </li>
     </ul>
     <div>
-      <button class="btn logout-btn">Logout</button>
+      <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-dark logout-btn">{% trans 'Logout' %}</button>
+      </form>
     </div>
   </nav>
+
 
   <!-- Main Content -->
   <div class="main-content">
 <!-------------------------------------------------------------- Project Section ----------------------------------------------------------------> 
 <div id="projectsSection" style="display:none;">
-  <h2>Projects</h2>
+  <h2>{% trans 'Projects' %}</h2>
 
   <!-- Botón para crear un nuevo proyecto -->
   <div class="d-flex justify-content-between mb-4">
-      <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createProjectModal">Create New Project</button>
+      <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createProjectModal">{% trans 'Create New Project' %}</button>
   </div>
 
   <!-- Search Bar para filtrar proyectos por nombre o fecha -->
   <div class="row mb-4">
       <div class="col-md-8">
-          <input type="text" id="searchInput" class="form-control" placeholder="Search by client name or project title...">
+          <input type="text" id="searchInput" class="form-control" placeholder="{% trans 'Search by client name or project title...' %}">
       </div>
       <div class="col-md-4">
           <input type="date" id="dateInput" class="form-control">
@@ -243,19 +256,19 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
 
                   <!-- Mostrar el nombre del cliente como texto para filtrar -->
                   <p class="text-muted">
-                      Client: {{ project.user.first_name }} {{ project.user.last_name }}
+                      {% trans 'Client' %}: {{ project.user.first_name }} {{ project.user.last_name }}
                   </p>
 
                   <!-- Botón de acciones -->
                   <div class="dropdown">
                       <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton{{ project.id }}" data-bs-toggle="dropdown" aria-expanded="false">
-                          Actions
+                          {% trans 'Actions' %}
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ project.id }}">
-                          <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#projectFilesModal{{ project.id }}">View Files</button></li>
-                          <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#uploadFilesModal{{ project.id }}">Upload Files</button></li>
-                          <li><a class="dropdown-item" href="{% url 'download_project_files' project.id %}">Download Files as ZIP</a></li>
-                          <li><a class="dropdown-item text-danger" href="{% url 'delete_project' project.id %}">Delete Project</a></li>
+                          <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#projectFilesModal{{ project.id }}">{% trans 'View Files' %}</button></li>
+                          <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#uploadFilesModal{{ project.id }}">{% trans 'Upload Files' %}</button></li>
+                          <li><a class="dropdown-item" href="{% url 'download_project_files' project.id %}">{% trans 'Download Files as ZIP' %}</a></li>
+                          <li><a class="dropdown-item text-danger" href="{% url 'delete_project' project.id %}">{% trans 'Delete Project' %}</a></li>
                       </ul>
                   </div>
               </div>
@@ -268,7 +281,7 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="projectFilesModalLabel{{ project.id }}">
-                Files for {{ project.title }}
+                {% trans 'Files for' %} {{ project.title }}
               </h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -279,43 +292,41 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
                   {% for file in project.client_files.all %}
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <a href="{{ file.file.url }}" target="_blank">{{ file.file.name }}</a>
-                    <a href="{% url 'admin_client_project_file_delete' file.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="{% url 'admin_client_project_file_delete' file.id %}" class="btn btn-danger btn-sm">{% trans 'Delete' %}</a>
                   </li>
                   {% endfor %}
               </ul>
               {% else %}
-              <p>No files uploaded for this project.</p>
+              <p>{% trans 'No files uploaded for this project.' %}</p>
               {% endif %}
             </div>
           </div>
         </div>
       </div>
 
-<!-- Modal para subir archivos al proyecto -->
-<div class="modal fade" id="uploadFilesModal{{ project.id }}" tabindex="-1" aria-labelledby="uploadFilesModalLabel{{ project.id }}" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="uploadFilesModalLabel{{ project.id }}">
-          Upload Files for {{ project.title }}
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="uploadFilesForm{{ project.id }}" method="POST" action="{% url 'admin_project_upload_files' project.id %}" enctype="multipart/form-data">
-          {% csrf_token %}
-          <div class="mb-3">
-            <label for="id_files" class="form-label">{% trans "Select Files" %}</label>
-            <input type="file" name="file" class="form-control" multiple required>
+      <!-- Modal para subir archivos al proyecto -->
+      <div class="modal fade" id="uploadFilesModal{{ project.id }}" tabindex="-1" aria-labelledby="uploadFilesModalLabel{{ project.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="uploadFilesModalLabel{{ project.id }}">
+                {% trans 'Upload Files for' %} {{ project.title }}
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="uploadFilesForm{{ project.id }}" method="POST" action="{% url 'admin_project_upload_files' project.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="id_files" class="form-label">{% trans 'Select Files' %}</label>
+                  <input type="file" name="file" class="form-control" multiple required>
+                </div>
+                <button type="submit" class="btn btn-dark">{% trans 'Upload Files' %}</button>
+              </form>
+            </div>
           </div>
-          <button type="submit" class="btn btn-dark">{% trans "Upload Files" %}</button>
-        </form>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
-
-
 
       {% endfor %}
   </div>
@@ -326,7 +337,7 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="createProjectModalLabel">Create New Client Project</h5>
+        <h5 class="modal-title" id="createProjectModalLabel">{% trans 'Create New Client Project' %}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -334,19 +345,19 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
           {% csrf_token %}
           <!-- Título del Proyecto -->
           <div class="mb-3">
-            <label for="projectTitle" class="form-label">Project Title</label>
+            <label for="projectTitle" class="form-label">{% trans 'Project Title' %}</label>
             <input type="text" name="title" class="form-control" id="projectTitle" required>
           </div>
           <!-- Descripción del Proyecto -->
           <div class="mb-3">
-            <label for="projectDescription" class="form-label">Project Description</label>
+            <label for="projectDescription" class="form-label">{% trans 'Project Description' %}</label>
             <textarea name="description" class="form-control" id="projectDescription" rows="3" required></textarea>
           </div>
           <!-- Seleccionar Cliente -->
           <div class="mb-3">
-            <label for="projectClient" class="form-label">Assign to Client</label>
+            <label for="projectClient" class="form-label">{% trans 'Assign to Client' %}</label>
             <select name="client_id" class="form-control" id="projectClient" required>
-              <option value="" selected disabled>Select a client</option>
+              <option value="" selected disabled>{% trans 'Select a client' %}</option>
               {% for client in clients %}
               <option value="{{ client.id }}">{{ client.first_name }} {{ client.last_name }}</option>
               {% endfor %}
@@ -354,16 +365,17 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
           </div>
           <!-- Subir Archivos -->
           <div class="mb-3">
-            <label for="projectFiles" class="form-label">Upload Files</label>
+            <label for="projectFiles" class="form-label">{% trans 'Upload Files' %}</label>
             <input type="file" name="files" class="form-control" id="projectFiles" multiple required>
           </div>
           <!-- Botón de enviar -->
-          <button type="submit" class="btn btn-primary">Create Project</button>
+          <button type="submit" class="btn btn-primary">{% trans 'Create Project' %}</button>
         </form>
       </div>
     </div>
   </div>
 </div>
+
 
 
 
@@ -409,15 +421,15 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
 <!-------------------------------------------------------------- Files Section ----------------------------------------------------------------> 
 <!-- 2. Files Section: List of Uploaded Files -->
 <div id="filesSection" style="display:none;">
-  <h2>Files</h2>
+  <h2>{% trans 'Files' %}</h2>
   
   <!-- Search Bar para filtrar archivos -->
   <form method="GET" action="">
       <div class="row mb-4">
           <div class="col-md-6">
-              <input type="text" name="search" class="form-control" placeholder="Search files..." value="{{ request.GET.search }}">
+              <input type="text" name="search" class="form-control" placeholder="{% trans 'Search files...' %}" value="{{ request.GET.search }}">
           </div>
-          <div class="col-md-4">
+          <div class="col-md-6">
               <input type="date" name="date" class="form-control" value="{{ request.GET.date }}">
           </div>
       </div>
@@ -434,27 +446,28 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
                       </h5>
 
                       <!-- Mostrar nombre del cliente y del proyecto -->
-                      <p class="card-text">Client: {{ file.project.user.first_name }} {{ file.project.user.last_name }}</p>
-                      <p class="card-text">Project: {{ file.project.title }}</p>
-                      <p class="card-text">Uploaded: {{ file.uploaded_at }}</p>
+                      <p class="card-text">{% trans 'Client' %}: {{ file.project.user.first_name }} {{ file.project.user.last_name }}</p>
+                      <p class="card-text">{% trans 'Project' %}: {{ file.project.title }}</p>
+                      <p class="card-text">{% trans 'Uploaded' %}: {{ file.uploaded_at }}</p>
 
                       <div class="dropdown">
                           <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton{{ file.id }}" data-bs-toggle="dropdown" aria-expanded="false">
-                              Actions
+                              {% trans 'Actions' %}
                           </button>
                           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ file.id }}">
-                              <li><a class="dropdown-item" href="{{ file.file.url }}" download>Download</a></li>
-                              <li><a class="dropdown-item text-danger" href="{% url 'admin_project_file_delete' file.id %}">Delete</a></li>
+                              <li><a class="dropdown-item" href="{{ file.file.url }}" download>{% trans 'Download' %}</a></li>
+                              <li><a class="dropdown-item text-danger" href="{% url 'admin_project_file_delete' file.id %}">{% trans 'Delete' %}</a></li>
                           </ul>
                       </div>
                   </div>
               </div>
           </div>
       {% empty %}
-          <p>No files found.</p>
+          <p>{% trans 'No files found.' %}</p>
       {% endfor %}
   </div>
 </div>
+
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -490,69 +503,76 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
   
   <!-------------------------------------------------------------- Accounts Settings ----------------------------------------------------------------> 
     
-   <!-- 3. Account Settings Section: User account details and settings -->
-   <div id="settingsSection" style="display:none;">
-    <h2>Account Settings</h2>
+  <!-- 3. Account Settings Section: User account details and settings -->
+<div id="settingsSection" style="display:none;">
+  <h2>{% trans 'Account Settings' %}</h2>
 
-    <div class="card">
-        <div class="card-body">
-            
-            <!-- Campo de nombre completo -->
-            <div class="mb-3">
-                <label for="userName" class="form-label">User Name</label>
-                <input type="text" class="form-control" id="userName" value="{{ user.first_name }} {{ user.last_name }}" readonly>
-            </div>
-  
-            <!-- Campo de correo electrónico -->
-            <div class="mb-3">
-                <label for="userEmail" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="userEmail" value="{{ user.email }}" readonly>
-            </div>
-  
-            <!-- Botón para resetear la contraseña y selección de idioma -->
-            <div class="mb-3 d-flex align-items-center">
-                <div>
-                    <label for="resetPassword" class="form-label">Reset Password</label>
-                    <form method="post" action="{% url 'reset_password' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-dark">Reset Password</button>
-                    </form>
+  <div class="card">
+      <div class="card-body">
+
+          <!-- Campo de nombre completo -->
+          <div class="mb-3">
+              <label for="userName" class="form-label">{% trans 'User Name' %}</label>
+              <input type="text" class="form-control" id="userName" value="{{ user.first_name }} {{ user.last_name }}" readonly>
+          </div>
+
+          <!-- Campo de correo electrónico -->
+          <div class="mb-3">
+              <label for="userEmail" class="form-label">{% trans 'Email Address' %}</label>
+              <input type="email" class="form-control" id="userEmail" value="{{ user.email }}" readonly>
+          </div>
+
+          <!-- Mostrar el rol del usuario basado en su grupo -->
+          <div class="mb-3">
+              <label for="userRole" class="form-label">{% trans 'Role' %}</label>
+              <input type="text" class="form-control" id="userRole" value="{{ role }}" readonly>
+          </div>
+
+          <!-- Botón para resetear la contraseña y selección de idioma -->
+          <div class="mb-3 d-flex align-items-center">
+              <div>
+                  <label for="resetPassword" class="form-label">{% trans 'Reset Password' %}</label>
+                  <form method="post" action="{% url 'reset_password' %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-dark">{% trans 'Reset Password' %}</button>
+                  </form>
+              </div>
+
+              <form method="post" action="{% url 'set_language' %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <div class="ms-3">
+                    <label for="languageSelect" class="form-label">{% trans "Select Language" %}</label>
+                    <select class="form-select" id="languageSelect" name="language" onchange="this.form.submit()">
+                        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>{% trans "English" %}</option>
+                        <option value="es" {% if LANGUAGE_CODE == 'es' %}selected{% endif %}>{% trans "Español" %}</option>
+                    </select>
                 </div>
-                
-                <!-- Selector de idioma -->
-                <form method="post" action="{% url 'set_language' %}">
-                  {% csrf_token %}
-                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                  <div class="ms-3">
-                      <label for="languageSelect" class="form-label">Select Language</label>
-                      <select class="form-select" id="languageSelect" name="language" onchange="this.form.submit()">
-                          <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
-                          <option value="es" {% if LANGUAGE_CODE == 'es' %}selected{% endif %}>Español</option>
-                      </select>
-                  </div>
-                </form>
-            </div>
-        </div>
-    </div>
-  </div>  
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+
 
     <!-------------------------------------------------------------- Clients ----------------------------------------------------------------> 
     
     <div id="ClientsSection" style="display:none;">
-      <h2>Clients</h2>
-      <button class="btn mb-3 me-3" style="background-color: black; color: white;" data-bs-toggle="modal" data-bs-target="#addClientModal">Add Client</button>
-    
+      <h2>{% trans 'Clients' %}</h2>
+      <button class="btn mb-3 me-3" style="background-color: black; color: white;" data-bs-toggle="modal" data-bs-target="#addClientModal">{% trans 'Invite Client' %}</button>
+      
       <!-- Campo de búsqueda -->
       <div class="mb-3">
-        <input type="text" id="clientSearchInput" class="form-control" placeholder="Search by name or email...">
+        <input type="text" id="clientSearchInput" class="form-control" placeholder="{% trans 'Search by name or email...' %}">
       </div>
-    
+      
       <table class="table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Action</th>
+            <th>{% trans 'Name' %}</th>
+            <th>{% trans 'Email' %}</th>
+            <th>{% trans 'Action' %}</th>
           </tr>
         </thead>
         <tbody id="clientList">
@@ -561,18 +581,45 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
             <td>{{ client.first_name }} {{ client.last_name }}</td>
             <td>{{ client.email }}</td>
             <td>
-              <a href="{% url 'delete_user' client.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this client?');">Delete</a>
+              <a href="{% url 'delete_user' client.id %}" class="btn btn-sm btn-danger" onclick="return confirm('{% trans 'Are you sure you want to delete this client?' %}');">{% trans 'Delete' %}</a>
             </td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="3">No clients found</td>
+            <td colspan="3">{% trans 'No clients found' %}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
-
+    
+    <!-- Modal para añadir un nuevo cliente -->
+    <div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addClientModalLabel">{% trans 'Invite New Client' %}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="addClientForm" method="POST" action="{% url 'add_client' %}">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="clientName" class="form-label">{% trans 'Name' %}</label>
+                <input type="text" class="form-control" id="clientName" name="name" required>
+              </div>
+              <div class="mb-3">
+                <label for="clientEmail" class="form-label">{% trans 'Email' %}</label>
+                <input type="email" class="form-control" id="clientEmail" name="email" required>
+              </div>
+              <button type="submit" class="btn" style="background-color: black; color: white;">{% trans 'Invite Client' %}</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
     <script>
     document.addEventListener('DOMContentLoaded', function () {
       const clientSearchInput = document.getElementById('clientSearchInput');
@@ -594,25 +641,27 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
         });
       });
     });
-    
     </script>
+    
+    
 
-     <!-------------------------------------------------------------- Supervisors ----------------------------------------------------------------> 
+     <!-------------------------------------------------------------- Team members ----------------------------------------------------------------> 
      <div id="supervisorSection" style="display:none;">
-      <h2>Management Team</h2>
-      <button class="btn mb-3 me-3" style="background-color: black; color: white;" data-bs-toggle="modal" data-bs-target="#addSupervisorModal">Add member</button>
-      
+      <h2>{% trans 'Management Team' %}</h2>
+      <button class="btn mb-3 me-3" style="background-color: black; color: white;" data-bs-toggle="modal" data-bs-target="#addSupervisorModal">{% trans 'Add member' %}</button>
+    
       <!-- Campo de búsqueda -->
       <div class="mb-3">
-        <input type="text" id="supervisorSearchInput" class="form-control" placeholder="Search by name or email...">
+        <input type="text" id="supervisorSearchInput" class="form-control" placeholder="{% trans 'Search by name or email...' %}">
       </div>
-      
+    
       <table class="table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Action</th>
+            <th>{% trans 'Name' %}</th>
+            <th>{% trans 'Email' %}</th>
+            <th>{% trans 'Group' %}</th> <!-- Nueva columna para cambiar de grupo -->
+            <th>{% trans 'Action' %}</th>
           </tr>
         </thead>
         <tbody id="supervisorList">
@@ -621,134 +670,171 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
             <td>{{ supervisor.first_name }} {{ supervisor.last_name }}</td>
             <td>{{ supervisor.email }}</td>
             <td>
-              <a href="{% url 'delete_supervisor' supervisor.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this supervisor?');">Delete</a>
+              <!-- Formulario para cambiar de grupo -->
+              <form method="POST" action="{% url 'change_group' supervisor.id %}">
+                {% csrf_token %}
+                <select class="form-select" name="group" onchange="this.form.submit()">
+                  <option value="admin" {% if supervisor.groups.first.name == 'Admin' %}selected{% endif %}>{% trans 'Admin' %}</option>
+                  <option value="supervisor" {% if supervisor.groups.first.name == 'Supervisor' %}selected{% endif %}>{% trans 'Supervisor' %}</option>
+                </select>
+              </form>
+            </td>
+            <td>
+              <a href="{% url 'delete_supervisor' supervisor.id %}" class="btn btn-sm btn-danger" onclick="return confirm('{% trans 'Are you sure you want to delete this supervisor?' %}');">{% trans 'Delete' %}</a>
             </td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="3">No management team members found</td>
+            <td colspan="4">{% trans 'No management team members found' %}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
-  </div>
-  
-  <!-- Modal para añadir un nuevo supervisor -->
-  <div class="modal fade" id="addSupervisorModal" tabindex="-1" aria-labelledby="addSupervisorModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addSupervisorModalLabel">Add New Supervisor</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="addSupervisorForm">
-            <div class="mb-3">
-              <label for="supervisorName" class="form-label">Name</label>
-              <input type="text" class="form-control" id="supervisorName" required>
+    
+      <!-- Modal para añadir un nuevo supervisor -->
+      <div class="modal fade" id="addSupervisorModal" tabindex="-1" aria-labelledby="addSupervisorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addSupervisorModalLabel">{% trans 'Add New Member' %}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="mb-3">
-              <label for="supervisorEmail" class="form-label">Email</label>
-              <input type="email" class="form-control" id="supervisorEmail" required>
+            <div class="modal-body">
+              <form id="addSupervisorForm" method="POST" action="{% url 'add_supervisor' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="supervisorName" class="form-label">{% trans 'Name' %}</label>
+                  <input type="text" class="form-control" id="supervisorName" name="name" required>
+                </div>
+                <div class="mb-3">
+                  <label for="supervisorEmail" class="form-label">{% trans 'Email' %}</label>
+                  <input type="email" class="form-control" id="supervisorEmail" name="email" required>
+                </div>
+                <div class="mb-3">
+                  <label for="supervisorPassword" class="form-label">{% trans 'Password' %}</label>
+                  <input type="password" class="form-control" id="supervisorPassword" name="password" required>
+                </div>
+                <!-- Toggle para seleccionar el grupo -->
+                <div class="mb-3">
+                  <label for="groupSelection" class="form-label">{% trans 'Assign to Group' %}</label>
+                  <select class="form-select" id="groupSelection" name="group">
+                    <option value="admin">{% trans 'Admin' %}</option>
+                    <option value="supervisor">{% trans 'Supervisor' %}</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn" style="background-color: black; color: white;">{% trans 'Add member' %}</button>
+              </form>
             </div>
-            <button type="submit" class="btn" style="background-color: black; color: white;">Add member</button>
-          </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  
-<script>
-// Búsqueda de supervisores
-document.getElementById('supervisorSearchInput').addEventListener('input', function() {
-    let searchQuery = this.value.toLowerCase();
-    let supervisorItems = document.querySelectorAll('.supervisor-item');
     
-    supervisorItems.forEach(function(item) {
-        let name = item.querySelector('td:first-child').textContent.toLowerCase();
-        let email = item.querySelector('td:nth-child(2)').textContent.toLowerCase();
+    
+    <script>
+    // Búsqueda de supervisores
+    document.getElementById('supervisorSearchInput').addEventListener('input', function() {
+        let searchQuery = this.value.toLowerCase();
+        let supervisorItems = document.querySelectorAll('.supervisor-item');
         
-        if (name.includes(searchQuery) || email.includes(searchQuery)) {
-            item.style.display = '';
-        } else {
-            item.style.display = 'none';
-        }
+        supervisorItems.forEach(function(item) {
+            let name = item.querySelector('td:first-child').textContent.toLowerCase();
+            let email = item.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            
+            if (name.includes(searchQuery) || email.includes(searchQuery)) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
     });
-});
+    </script>
+    
 
+<!-------------------------------------------------------------- Logs ----------------------------------------------------------------> 
+
+<div id="logSection" style="display:none;">
+  <h2>{% trans 'Activity Log' %}</h2>
+
+  <!-- Formulario de búsqueda y filtrado -->
+  <div class="row mb-4">
+    <!-- Campo de búsqueda por nombre -->
+    <div class="col-md-4">
+      <input type="text" id="logSearchInput" class="form-control" placeholder="{% trans 'Search by user or action...' %}">
+    </div>
+
+    <!-- Campo de filtro por fecha -->
+    <div class="col-md-6">
+      <input type="date" id="logDateInput" class="form-control">
+    </div>
+  </div>
+
+  <!-- Tabla de logs -->
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% trans 'User' %}</th>
+        <th>{% trans 'Action' %}</th>
+        <th>{% trans 'Timestamp' %}</th>
+      </tr>
+    </thead>
+    <tbody id="logList">
+      {% for log in logs %}
+      <tr class="log-item">
+        <td>{{ log.user.username }}</td>
+        <td>{{ log.action }}</td>
+        <td>{{ log.timestamp }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3">{% trans 'No activity found' %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const logSearchInput = document.getElementById('logSearchInput');
+  const logDateInput = document.getElementById('logDateInput');
+  const logItems = document.querySelectorAll('.log-item');
+
+  // Función para filtrar los logs
+  function filterLogs() {
+      const searchQuery = logSearchInput.value.toLowerCase();
+      const dateQuery = logDateInput.value;
+
+      logItems.forEach(function(item) {
+          const username = item.querySelector('td:first-child').textContent.toLowerCase();
+          const action = item.querySelector('td:nth-child(2)').textContent.toLowerCase();
+          const timestamp = item.querySelector('td:nth-child(3)').textContent;
+
+          // Comprobar si el nombre o la acción contienen el texto de búsqueda
+          const matchesSearch = username.includes(searchQuery) || action.includes(searchQuery);
+          
+          // Comprobar si la fecha coincide (si se ha seleccionado una fecha)
+          const matchesDate = !dateQuery || timestamp.startsWith(dateQuery);
+
+          // Mostrar u ocultar los logs en función de los criterios
+          if (matchesSearch && matchesDate) {
+              item.style.display = '';
+          } else {
+              item.style.display = 'none';
+          }
+      });
+  }
+
+  // Ejecutar la función de filtrado cuando cambie el input de búsqueda o la fecha
+  logSearchInput.addEventListener('input', filterLogs);
+  logDateInput.addEventListener('input', filterLogs);
+});
 </script>
 
-<!-------------------------------------------------------------- Supervisors ----------------------------------------------------------------> 
 
+<!-------------------------------------------------------------- Logs ----------------------------------------------------------------> 
 
-  <!-- Modals -->
-  <div class="modal fade" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createProjectModalLabel">Create New Project</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <label for="projectName" class="form-label">Project Name</label>
-              <input type="text" class="form-control" id="projectName" placeholder="Enter project name">
-            </div>
-            <div class="mb-3">
-              <label for="projectFile" class="form-label">Upload File</label>
-              <input class="form-control" type="file" id="projectFile">
-            </div>
-            <button type="submit" class="btn" style="background-color: black; color: white;">Create Project</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="projectFilesModal" tabindex="-1" aria-labelledby="projectFilesModalLabel" aria-hidden="true">
-    <div
-<div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-
-          <h5 class="modal-title" id="projectFilesModalLabel">Project Files</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-
-body">
-          <ul class="list-group" id="projectFilesList">
-            <!-- Files will be dynamically inserted here -->
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"
- id="addCLientModalLabel">Add New Client</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="addClientForm"> 
-            <div class="mb-3">
-              <label for="clientName" class="form-label">Name</label>
-              <input type="text" class="form-control" id="clientName" required>
-            </div>
-            <div class="mb-3">
-              <label for="clientEmail" class="form-label">Email</label>
-              <input type="email" class="form-control" id="clientEmail" required>
-            </div>
-            <button type="submit" class="btn" style="background-color: black; color: white;">Add Client</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+    
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -761,19 +847,21 @@ const filesLink = document.getElementById('filesLink');
 const settingsLink = document.getElementById('settingsLink');
 const ClientsLink = document.getElementById('ClientsLink');
 const supervisorLink = document.getElementById('supervisorLink');
+const logLink = document.getElementById('logLink');
 
 const projectsLinkMobile = document.getElementById('projectsLinkMobile');
 const filesLinkMobile = document.getElementById('filesLinkMobile');
 const settingsLinkMobile = document.getElementById('settingsLinkMobile');
 const ClientsLinkMobile = document.getElementById('ClientsLinkMobile');
 const supervisorLinkMobile = document.getElementById('supervisorLinkMobile');
+const logLinkMobile = document.getElementById('logLinkMobile');
 
 const projectsSection = document.getElementById('projectsSection');
 const filesSection = document.getElementById('filesSection');
 const settingsSection = document.getElementById('settingsSection');
 const ClientsSection = document.getElementById('ClientsSection');
 const supervisorSection = document.getElementById('supervisorSection');
-
+const logSection = document.getElementById('logSection');
 
 const projectFilesList = document.getElementById('projectFilesList');
 
@@ -841,6 +929,18 @@ supervisorLinkMobile.addEventListener('click', function () {  // Añadir navegac
   showSection(supervisorSection);
 });
 
+// Navegación de escritorio
+logLink.addEventListener('click', function () {
+  showSection(logSection);
+  setActiveLink(logLink);
+});
+
+// Navegación móvil
+logLinkMobile.addEventListener('click', function () {
+  showSection(logSection);
+});
+
+
 // Handle URL hash on page load
 document.addEventListener('DOMContentLoaded', function() {
   const hash = window.location.hash;
@@ -860,6 +960,9 @@ document.addEventListener('DOMContentLoaded', function() {
   } else if (hash === '#supervisorSection') {  // Añadir manejo de hash para supervisores
     showSection(supervisorSection);
     setActiveLink(supervisorLink);
+  } else if (hash === '#logSection') {  // Añadir manejo de hash para supervisores
+    showSection(logSection);
+    setActiveLink(logLink);
   } else {
     showSection(projectsSection);
     setActiveLink(projectsLink); // Default to projects section
@@ -868,7 +971,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Function to show a section and hide others
 function showSection(section) {
-  const sections = [projectsSection, filesSection, settingsSection, ClientsSection,supervisorSection];
+  const sections = [projectsSection, filesSection, settingsSection, ClientsSection,supervisorSection, logSection];
   
   // Hide all sections
   sections.forEach(function(sec) {
@@ -886,6 +989,8 @@ function setActiveLink(activeLink) {
   settingsLink.classList.remove('active');
   ClientsLink.classList.remove('active');
   supervisorLink.classList.remove('active')
+  logLink.classList.remove('active');
+
   
   activeLink.classList.add('active');
 }
