@@ -60,6 +60,26 @@ def login_view(request):
 
     return render(request, 'login.html')
 
+
+def register_view(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()  # Guarda el usuario
+            # Asigna al usuario al grupo "Client"
+            client_group = Group.objects.get(name='Client')
+            user.groups.add(client_group)
+            messages.success(request, 'Account created successfully. Please log in.')
+            return redirect('login')  # Redirige a la página de login después de registrarse
+    else:
+        form = CustomUserCreationForm()
+    
+    return render(request, 'register.html', {'form': form})
+
+def policy_terms_view(request):
+    # Lógica para manejar el formulario de registro
+    return render(request, 'policy_terms.html')
+
 @login_required  
 def admin_dashboard_view(request):
     users = User.objects.all()  # Get all users
@@ -117,32 +137,6 @@ def client_view(request):
         # Otros datos que necesites pasar a la plantilla
     })
 
-@login_required
-def employee_view(request):
-    return render(request, 'employee.html')
-
-def register_view(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            # Save the new user
-            user = form.save()
-
-            # Get the "Client" group
-            client_group = Group.objects.get(name='Client')
-
-            # Add the user to the "Client" group
-            user.groups.add(client_group)
-
-            # Add a success message
-            messages.success(request, 'Your account has been created successfully!')
-
-            # Redirect to the login page
-            return redirect('login')
-    else:
-        form = CustomUserCreationForm()
-
-    return render(request, 'register.html', {'form': form})
 
 
 
@@ -330,6 +324,8 @@ def client_view(request):
     # Obtener los archivos asociados a los proyectos del usuario logueado
     client_files = ClientProjectFile.objects.filter(project__user=request.user)
 
+
+
     for file in client_files:
         file.basename = file.file.name.split('/')[-1]  # Dividir por '/' y obtener el último elemento
 
@@ -340,6 +336,7 @@ def client_view(request):
     else:
         show_welcome_modal = False
 
+    
     return render(request, 'client.html', {
         'project_form': project_form,
         'formset': formset,
@@ -369,6 +366,22 @@ def client_project_create(request):
 
         # Comprobamos si el formulario y el formset son válidos
         if project_form.is_valid() and formset.is_valid():
+            # Validar cada archivo en el formset
+            for form in formset:
+                if form.cleaned_data:
+                    file = form.cleaned_data['file']
+
+                    # Verificar si el nombre del archivo excede los 100 caracteres
+                    if len(file.name) > 100:
+                        form.add_error('file', 'El nombre del archivo es demasiado largo. Por favor, usa un nombre más corto.')
+
+            # Si hay errores en el formset, no continuar
+            if formset.non_form_errors() or any(form.errors for form in formset):
+                return render(request, 'create_project.html', {
+                    'project_form': project_form,
+                    'formset': formset,
+                })
+
             # Guardamos el proyecto sin hacer commit aún, para poder asignar el usuario
             project = project_form.save(commit=False)
             project.user = request.user  # Asignamos el usuario autenticado al proyecto
@@ -395,6 +408,7 @@ def client_project_create(request):
         'project_form': project_form,
         'formset': formset,
     })
+
 
 @login_required
 def client_project_delete(request, project_id):
@@ -480,14 +494,14 @@ def is_admin(user):
 def admin_view(request):
     # Verificación si el usuario es admin
     if not is_admin(request.user):
-        return HttpResponseForbidden("You do not have permission to access this page.")
+        return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
 
     # Cargar todos los proyectos de los clientes
     projects = ClientProject.objects.all()
     # Obtener todos los usuarios que están en el grupo "Client"
-    clients_group = Group.objects.get(name='Client')  # Asegúrate de que el grupo "Client" existe
-    clients = User.objects.filter(groups=clients_group)  # Filtrar usuarios en el grupo "Client"
-    client_files = ClientProjectFile.objects.all()  # Obtiene todos los archivos
+    clients_group = Group.objects.get(name='Client')
+    clients = User.objects.filter(groups=clients_group)
+    client_files = ClientProjectFile.objects.all()
     supervisors_group = Group.objects.get(name='Supervisor')
     admin_group = Group.objects.get(name='Admin')
     
@@ -495,14 +509,14 @@ def admin_view(request):
     supervisors = User.objects.filter(groups__in=[supervisors_group, admin_group]).exclude(id=request.user.id)
     logs = ActivityLog.objects.all().order_by('-timestamp')
     user = request.user
-      # Determinar el rol del usuario
-     # Determinar el rol del usuario
+
+    # Determinar el rol del usuario
     if user.groups.filter(name='Admin').exists():
         role = 'Admin'
     elif user.groups.filter(name='Supervisor').exists():
         role = 'Supervisor'
     else:
-        role = 'Client'  # Si el usuario no está en los grupos "Admin" ni "Supervisor"
+        role = 'Client'
         
     if request.method == 'POST':
         # Aquí podrías manejar la creación de proyectos o algún otro formulario
@@ -513,11 +527,12 @@ def admin_view(request):
         'clients': clients,
         'client_files': client_files,
         'supervisors': supervisors,
-        'user': user,  # Pasar el objeto usuario al contexto
+        'user': user,
         'role': role,
-        'logs': logs,  # Pasar el rol al contexto
+        'logs': logs,
         'LANGUAGE_CODE': get_language(),
     })
+
 
     
 @login_required
@@ -742,7 +757,6 @@ def add_client(request):
         name = request.POST.get('name')
         email = request.POST.get('email')
 
-    
         # Enviar el correo electrónico con el enlace
         subject = 'Invitacion a la plataforma JRH Architects'
         message = f'Hola {name},\n\nHas sido invitado a registrarte y gestionar los archivos de tu proyecto en nuestra plataforma.\n\nPor favor, haz clic en el siguiente enlace para completar tu registro y comenzar a subir archivos:\n\nhttps://ezwebproject.pythonanywhere.com/\n\nSaludos cordiales,\nJRH Architects'
@@ -751,41 +765,53 @@ def add_client(request):
 
         send_mail(subject, message, from_email, recipient_list)
 
-        ActivityLog.objects.create(user=request.user, action=f"Invito a un nuevo cliente: {name} ({email})")
+        # Registrar la actividad
+        ActivityLog.objects.create(user=request.user, action=f"Invitó a un nuevo cliente: {name} ({email})")
 
-        # Redirigir a la lista de clientes
-        return redirect('/admin/#ClientsSection')
+        # Verificar si el usuario es Admin o Supervisor y redirigir en consecuencia
+        if request.user.groups.filter(name='Admin').exists():
+            return redirect('/admin/#ClientsSection')
+        elif request.user.groups.filter(name='Supervisor').exists():
+            return redirect('/supervisor/#ClientsSection')
+        else:
+            return HttpResponseForbidden("No tienes permiso para realizar esta acción.")
+    
+    return render(request, 'admin.html')  # Puedes ajustar el template si es necesario
+
+def is_admin(user):
+    # Verificar si el usuario está en el grupo 'Admin' únicamente
+    return user.groups.filter(name='Admin').exists()
 
 
-    return render(request, '/admin/#ClientsSection')
+
+def is_supervisor(user):
+    # Verificar si el usuario está en el grupo 'Supervisor'
+    return user.groups.filter(name='Supervisor').exists()
 
 @login_required
 def supervisor_view(request):
-    # Verificación si el usuario es admin
-    if not is_admin(request.user):
-        return HttpResponseForbidden("You do not have permission to access this page.")
+    # Verificación si el usuario es supervisor
+    if not is_supervisor(request.user):
+        return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
 
     # Cargar todos los proyectos de los clientes
     projects = ClientProject.objects.all()
-    # Obtener todos los usuarios que están en el grupo "Client"
-    clients_group = Group.objects.get(name='Client')  # Asegúrate de que el grupo "Client" existe
-    clients = User.objects.filter(groups=clients_group)  # Filtrar usuarios en el grupo "Client"
-    client_files = ClientProjectFile.objects.all()  # Obtiene todos los archivos
+    clients_group = Group.objects.get(name='Client')
+    clients = User.objects.filter(groups=clients_group)
+    client_files = ClientProjectFile.objects.all()
     supervisors_group = Group.objects.get(name='Supervisor')
     admin_group = Group.objects.get(name='Admin')
     
-    # Excluir el usuario logueado de la lista
     supervisors = User.objects.filter(groups__in=[supervisors_group, admin_group]).exclude(id=request.user.id)
     logs = ActivityLog.objects.all().order_by('-timestamp')
     user = request.user
-      # Determinar el rol del usuario
-     # Determinar el rol del usuario
+
     if user.groups.filter(name='Admin').exists():
         role = 'Admin'
     elif user.groups.filter(name='Supervisor').exists():
         role = 'Supervisor'
     else:
-        role = 'Client'  # Si el usuario no está en los grupos "Admin" ni "Supervisor"
+        role = 'Client'
         
     if request.method == 'POST':
         # Aquí podrías manejar la creación de proyectos o algún otro formulario
@@ -796,8 +822,33 @@ def supervisor_view(request):
         'clients': clients,
         'client_files': client_files,
         'supervisors': supervisors,
-        'user': user,  # Pasar el objeto usuario al contexto
+        'user': user,
         'role': role,
-        'logs': logs,  # Pasar el rol al contexto
+        'logs': logs,
         'LANGUAGE_CODE': get_language(),
     })
+
+
+
+########################################################################################################################################################
+
+
+def error_404_view(request, exception):
+    return render(request, 'errors/error.html', {
+        'message': 'Ha ocurrido un error, favor de intentarlo nuevamente. Si el error persiste, intente más tarde.'
+    }, status=404)
+
+def error_500_view(request):
+    return render(request, 'errors/error.html', {
+        'message': 'Ha ocurrido un error, favor de intentarlo nuevamente. Si el error persiste, intente más tarde.'
+    }, status=500)
+
+def error_403_view(request, exception):
+    return render(request, 'errors/error.html', {
+        'message': 'No tienes permiso para acceder a esta página.'
+    }, status=403)
+
+def error_400_view(request, exception):
+    return render(request, 'errors/error.html', {
+        'message': 'Solicitud incorrecta, por favor inténtalo de nuevo.'
+    }, status=400)

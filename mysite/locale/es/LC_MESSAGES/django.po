@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-24 01:38+0000\n"
+"POT-Creation-Date: 2024-10-24 23:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,379 +18,417 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: mysite/settings.py:173 mysite/templates/admin.html:547
-#: mysite/templates/client.html:594
+#: mysite/settings.py:176 mysite/templates/admin.html:554
+#: mysite/templates/client.html:604 mysite/templates/supervisor.html:542
 msgid "English"
 msgstr "Inglés"
 
-#: mysite/settings.py:174
+#: mysite/settings.py:177
 msgid "Spanish"
 msgstr "Español"
 
-#: mysite/templates/admin.html:156 mysite/templates/client.html:151
+#: mysite/templates/admin.html:163 mysite/templates/client.html:159
+#: mysite/templates/supervisor.html:156
 msgid "Toggle navigation"
 msgstr "Alternar navegación"
 
-#: mysite/templates/admin.html:162 mysite/templates/admin.html:196
-#: mysite/templates/admin.html:227 mysite/templates/client.html:158
-#: mysite/templates/client.html:185
+#: mysite/templates/admin.html:169 mysite/templates/admin.html:203
+#: mysite/templates/admin.html:234 mysite/templates/client.html:166
+#: mysite/templates/client.html:195 mysite/templates/supervisor.html:162
+#: mysite/templates/supervisor.html:196 mysite/templates/supervisor.html:227
 msgid "Projects"
 msgstr "Proyectos"
 
-#: mysite/templates/admin.html:165 mysite/templates/admin.html:199
-#: mysite/templates/admin.html:424 mysite/templates/client.html:161
-#: mysite/templates/client.html:188
+#: mysite/templates/admin.html:172 mysite/templates/admin.html:206
+#: mysite/templates/admin.html:431 mysite/templates/client.html:169
+#: mysite/templates/client.html:198 mysite/templates/supervisor.html:165
+#: mysite/templates/supervisor.html:199 mysite/templates/supervisor.html:419
 msgid "Files"
 msgstr "Archivos"
 
-#: mysite/templates/admin.html:168 mysite/templates/admin.html:202
-#: mysite/templates/admin.html:562
+#: mysite/templates/admin.html:175 mysite/templates/admin.html:209
+#: mysite/templates/admin.html:569 mysite/templates/supervisor.html:168
+#: mysite/templates/supervisor.html:202 mysite/templates/supervisor.html:557
 msgid "Clients"
 msgstr "Clientes"
 
-#: mysite/templates/admin.html:171 mysite/templates/admin.html:205
-#: mysite/templates/admin.html:650
+#: mysite/templates/admin.html:178 mysite/templates/admin.html:212
+#: mysite/templates/admin.html:657 mysite/templates/supervisor.html:171
+#: mysite/templates/supervisor.html:205 mysite/templates/supervisor.html:645
 msgid "Management Team"
 msgstr "Gestión de equipo"
 
-#: mysite/templates/admin.html:174 mysite/templates/admin.html:208
-#: mysite/templates/admin.html:508 mysite/templates/client.html:164
-#: mysite/templates/client.html:191 mysite/templates/client.html:561
+#: mysite/templates/admin.html:181 mysite/templates/admin.html:215
+#: mysite/templates/admin.html:515 mysite/templates/client.html:172
+#: mysite/templates/client.html:201 mysite/templates/client.html:571
+#: mysite/templates/supervisor.html:174 mysite/templates/supervisor.html:208
+#: mysite/templates/supervisor.html:503
 msgid "Account Settings"
 msgstr "Configuraciones"
 
-#: mysite/templates/admin.html:177 mysite/templates/admin.html:211
-#: mysite/templates/admin.html:757
+#: mysite/templates/admin.html:184 mysite/templates/admin.html:218
+#: mysite/templates/admin.html:764 mysite/templates/supervisor.html:177
+#: mysite/templates/supervisor.html:211 mysite/templates/supervisor.html:752
 msgid "Activity Log"
 msgstr "Registro de Actividades"
 
-#: mysite/templates/admin.html:182 mysite/templates/admin.html:217
-#: mysite/templates/client.html:172 mysite/templates/client.html:203
+#: mysite/templates/admin.html:189 mysite/templates/admin.html:224
+#: mysite/templates/client.html:180 mysite/templates/client.html:213
+#: mysite/templates/supervisor.html:182 mysite/templates/supervisor.html:217
 msgid "Logout"
 msgstr "Cerrar Sesión"
 
-#: mysite/templates/admin.html:231 mysite/templates/client.html:217
-#: mysite/templates/client.html:225
+#: mysite/templates/admin.html:238 mysite/templates/client.html:227
+#: mysite/templates/client.html:235
 msgid "Create New Project"
 msgstr "Crear Nuevo Proyecto"
 
-#: mysite/templates/admin.html:237
+#: mysite/templates/admin.html:244 mysite/templates/supervisor.html:232
 msgid "Search by client name or project title..."
 msgstr "Buscar por nombre del cliente o título del proyecto..."
 
-#: mysite/templates/admin.html:259 mysite/templates/admin.html:449
+#: mysite/templates/admin.html:266 mysite/templates/admin.html:456
+#: mysite/templates/supervisor.html:254 mysite/templates/supervisor.html:444
 msgid "Client"
 msgstr "Cliente"
 
-#: mysite/templates/admin.html:265 mysite/templates/admin.html:455
-#: mysite/templates/client.html:276 mysite/templates/client.html:395
-#: mysite/templates/client.html:501
+#: mysite/templates/admin.html:272 mysite/templates/admin.html:462
+#: mysite/templates/client.html:286 mysite/templates/client.html:405
+#: mysite/templates/client.html:511 mysite/templates/supervisor.html:260
+#: mysite/templates/supervisor.html:450
 msgid "Actions"
 msgstr "Acciones"
 
-#: mysite/templates/admin.html:268 mysite/templates/client.html:282
-#: mysite/templates/client.html:399
+#: mysite/templates/admin.html:275 mysite/templates/client.html:292
+#: mysite/templates/client.html:409 mysite/templates/supervisor.html:263
 msgid "View Files"
 msgstr "Ver Archivos"
 
-#: mysite/templates/admin.html:269 mysite/templates/admin.html:324
-#: mysite/templates/admin.html:368 mysite/templates/client.html:246
-#: mysite/templates/client.html:288 mysite/templates/client.html:353
-#: mysite/templates/client.html:402 mysite/templates/client.html:665
-#: mysite/templates/supervisor.html:304
+#: mysite/templates/admin.html:276 mysite/templates/admin.html:331
+#: mysite/templates/admin.html:375 mysite/templates/client.html:256
+#: mysite/templates/client.html:298 mysite/templates/client.html:363
+#: mysite/templates/client.html:412 mysite/templates/client.html:677
+#: mysite/templates/supervisor.html:264 mysite/templates/supervisor.html:319
+#: mysite/templates/supervisor.html:363
 msgid "Upload Files"
 msgstr "Subir Archivos"
 
-#: mysite/templates/admin.html:270 mysite/templates/client.html:294
+#: mysite/templates/admin.html:277 mysite/templates/client.html:304
+#: mysite/templates/supervisor.html:265
 msgid "Download Files as ZIP"
 msgstr "Descargar Archivos como ZIP"
 
-#: mysite/templates/admin.html:271 mysite/templates/client.html:299
-#: mysite/templates/client.html:405
+#: mysite/templates/admin.html:278 mysite/templates/client.html:309
+#: mysite/templates/client.html:415 mysite/templates/supervisor.html:266
 msgid "Delete Project"
 msgstr "Eliminar Proyecto"
 
-#: mysite/templates/admin.html:284
+#: mysite/templates/admin.html:291 mysite/templates/supervisor.html:279
 #, fuzzy
 #| msgid "Files"
 msgid "Files for"
 msgstr "Archivos"
 
-#: mysite/templates/admin.html:295 mysite/templates/admin.html:459
-#: mysite/templates/admin.html:584 mysite/templates/admin.html:683
-#: mysite/templates/client.html:324 mysite/templates/client.html:510
+#: mysite/templates/admin.html:302 mysite/templates/admin.html:466
+#: mysite/templates/admin.html:591 mysite/templates/admin.html:690
+#: mysite/templates/client.html:334 mysite/templates/client.html:520
+#: mysite/templates/supervisor.html:290 mysite/templates/supervisor.html:454
+#: mysite/templates/supervisor.html:579 mysite/templates/supervisor.html:678
 msgid "Delete"
 msgstr "Eliminar"
 
-#: mysite/templates/admin.html:300 mysite/templates/client.html:329
+#: mysite/templates/admin.html:307 mysite/templates/client.html:339
+#: mysite/templates/supervisor.html:295
 msgid "No files uploaded for this project."
 msgstr "No se han subido archivos para este proyecto."
 
-#: mysite/templates/admin.html:313
+#: mysite/templates/admin.html:320 mysite/templates/supervisor.html:308
 #, fuzzy
 #| msgid "Upload Files"
 msgid "Upload Files for"
 msgstr "Subir Archivos"
 
-#: mysite/templates/admin.html:321 mysite/templates/client.html:350
-#: mysite/templates/supervisor.html:301
+#: mysite/templates/admin.html:328 mysite/templates/client.html:360
+#: mysite/templates/supervisor.html:316
 msgid "Select Files"
 msgstr "Seleccionar Archivos"
 
-#: mysite/templates/admin.html:340
+#: mysite/templates/admin.html:347 mysite/templates/supervisor.html:335
 #, fuzzy
 #| msgid "Create New Project"
 msgid "Create New Client Project"
 msgstr "Crear Nuevo Proyecto"
 
-#: mysite/templates/admin.html:348 mysite/templates/client.html:234
+#: mysite/templates/admin.html:355 mysite/templates/client.html:244
+#: mysite/templates/supervisor.html:343
 msgid "Project Title"
 msgstr "Título del Proyecto"
 
-#: mysite/templates/admin.html:353 mysite/templates/client.html:240
+#: mysite/templates/admin.html:360 mysite/templates/client.html:250
+#: mysite/templates/supervisor.html:348
 msgid "Project Description"
 msgstr "Descripcion del proyecto"
 
-#: mysite/templates/admin.html:358
+#: mysite/templates/admin.html:365 mysite/templates/supervisor.html:353
 msgid "Assign to Client"
 msgstr "Asignar al Cliente"
 
-#: mysite/templates/admin.html:360
+#: mysite/templates/admin.html:367 mysite/templates/supervisor.html:355
 #, fuzzy
 #| msgid "Select Files"
 msgid "Select a client"
 msgstr "Seleccionar Archivos"
 
-#: mysite/templates/admin.html:372 mysite/templates/client.html:256
+#: mysite/templates/admin.html:379 mysite/templates/client.html:266
+#: mysite/templates/supervisor.html:367
 msgid "Create Project"
 msgstr "Crear Proyecto"
 
-#: mysite/templates/admin.html:430 mysite/templates/client.html:472
+#: mysite/templates/admin.html:437 mysite/templates/client.html:482
+#: mysite/templates/supervisor.html:425
 msgid "Search files..."
 msgstr "Buscar archivos..."
 
-#: mysite/templates/admin.html:450
+#: mysite/templates/admin.html:457 mysite/templates/supervisor.html:445
 msgid "Project"
 msgstr "Proyecto"
 
-#: mysite/templates/admin.html:451
+#: mysite/templates/admin.html:458 mysite/templates/supervisor.html:446
 msgid "Uploaded"
 msgstr "Subido"
 
-#: mysite/templates/admin.html:458 mysite/templates/client.html:506
+#: mysite/templates/admin.html:465 mysite/templates/client.html:516
+#: mysite/templates/supervisor.html:453
 msgid "Download"
 msgstr "Descargar"
 
-#: mysite/templates/admin.html:466 mysite/templates/client.html:518
+#: mysite/templates/admin.html:473 mysite/templates/client.html:528
+#: mysite/templates/supervisor.html:461
 msgid "No files found."
 msgstr "No se encontraron archivos."
 
-#: mysite/templates/admin.html:515 mysite/templates/client.html:567
+#: mysite/templates/admin.html:522 mysite/templates/client.html:577
+#: mysite/templates/supervisor.html:510
 msgid "User Name"
 msgstr "Nombre de Usuario"
 
-#: mysite/templates/admin.html:521 mysite/templates/client.html:573
+#: mysite/templates/admin.html:528 mysite/templates/client.html:583
+#: mysite/templates/supervisor.html:516
 msgid "Email Address"
 msgstr "Dirección de Correo Electrónico"
 
-#: mysite/templates/admin.html:527
+#: mysite/templates/admin.html:534 mysite/templates/supervisor.html:522
 msgid "Role"
 msgstr "Rol"
 
-#: mysite/templates/admin.html:534 mysite/templates/admin.html:537
-#: mysite/templates/client.html:580 mysite/templates/client.html:583
+#: mysite/templates/admin.html:541 mysite/templates/admin.html:544
+#: mysite/templates/client.html:590 mysite/templates/client.html:593
 #: mysite/templates/registration/password_reset_form.html:7
 #: mysite/templates/registration/password_reset_form.html:55
+#: mysite/templates/supervisor.html:529 mysite/templates/supervisor.html:532
 msgid "Reset Password"
 msgstr "Restablecer Contraseña"
 
-#: mysite/templates/admin.html:545 mysite/templates/client.html:592
+#: mysite/templates/admin.html:552 mysite/templates/client.html:602
+#: mysite/templates/supervisor.html:540
 msgid "Select Language"
 msgstr "Seleccionar Idioma"
 
-#: mysite/templates/admin.html:548 mysite/templates/client.html:595
+#: mysite/templates/admin.html:555 mysite/templates/client.html:605
+#: mysite/templates/supervisor.html:543
 msgid "Español"
 msgstr "Español"
 
-#: mysite/templates/admin.html:563 mysite/templates/admin.html:615
+#: mysite/templates/admin.html:570 mysite/templates/admin.html:622
+#: mysite/templates/supervisor.html:558 mysite/templates/supervisor.html:610
 msgid "Invite Client"
 msgstr "Invitar Cliente"
 
-#: mysite/templates/admin.html:567 mysite/templates/admin.html:655
+#: mysite/templates/admin.html:574 mysite/templates/admin.html:662
+#: mysite/templates/supervisor.html:562 mysite/templates/supervisor.html:650
 msgid "Search by name or email..."
 msgstr "Buscar por nombre o correo electrónico..."
 
-#: mysite/templates/admin.html:573 mysite/templates/admin.html:608
-#: mysite/templates/admin.html:661 mysite/templates/admin.html:706
+#: mysite/templates/admin.html:580 mysite/templates/admin.html:615
+#: mysite/templates/admin.html:668 mysite/templates/admin.html:713
+#: mysite/templates/supervisor.html:568 mysite/templates/supervisor.html:603
+#: mysite/templates/supervisor.html:656 mysite/templates/supervisor.html:701
 msgid "Name"
 msgstr "Nombre"
 
-#: mysite/templates/admin.html:574 mysite/templates/admin.html:612
-#: mysite/templates/admin.html:662 mysite/templates/admin.html:710
+#: mysite/templates/admin.html:581 mysite/templates/admin.html:619
+#: mysite/templates/admin.html:669 mysite/templates/admin.html:717
+#: mysite/templates/supervisor.html:569 mysite/templates/supervisor.html:607
+#: mysite/templates/supervisor.html:657 mysite/templates/supervisor.html:705
 #, fuzzy
 #| msgid "Email:"
 msgid "Email"
 msgstr "Correo electrónico:"
 
-#: mysite/templates/admin.html:575 mysite/templates/admin.html:664
-#: mysite/templates/admin.html:777
+#: mysite/templates/admin.html:582 mysite/templates/admin.html:671
+#: mysite/templates/admin.html:784 mysite/templates/supervisor.html:570
+#: mysite/templates/supervisor.html:659 mysite/templates/supervisor.html:772
 #, fuzzy
 #| msgid "Actions"
 msgid "Action"
 msgstr "Acciones"
 
-#: mysite/templates/admin.html:584
+#: mysite/templates/admin.html:591 mysite/templates/supervisor.html:579
 msgid "Are you sure you want to delete this client?"
 msgstr "¿Estás seguro de que deseas eliminar a este cliente?"
 
-#: mysite/templates/admin.html:589
+#: mysite/templates/admin.html:596 mysite/templates/supervisor.html:584
 #, fuzzy
 #| msgid "No files found."
 msgid "No clients found"
 msgstr "No se encontraron archivos."
 
-#: mysite/templates/admin.html:601
+#: mysite/templates/admin.html:608 mysite/templates/supervisor.html:596
 msgid "Invite New Client"
 msgstr "Invitar Nuevo Cliente"
 
-#: mysite/templates/admin.html:651 mysite/templates/admin.html:725
+#: mysite/templates/admin.html:658 mysite/templates/admin.html:732
+#: mysite/templates/supervisor.html:646 mysite/templates/supervisor.html:720
 msgid "Add member"
 msgstr "Agregar miembro"
 
-#: mysite/templates/admin.html:663
+#: mysite/templates/admin.html:670 mysite/templates/supervisor.html:658
 msgid "Group"
 msgstr "Grupo"
 
-#: mysite/templates/admin.html:677 mysite/templates/admin.html:721
+#: mysite/templates/admin.html:684 mysite/templates/admin.html:728
+#: mysite/templates/supervisor.html:672 mysite/templates/supervisor.html:716
 msgid "Admin"
 msgstr "Administrador"
 
-#: mysite/templates/admin.html:678 mysite/templates/admin.html:722
+#: mysite/templates/admin.html:685 mysite/templates/admin.html:729
+#: mysite/templates/supervisor.html:673 mysite/templates/supervisor.html:717
 msgid "Supervisor"
 msgstr "Supervisor"
 
-#: mysite/templates/admin.html:683
+#: mysite/templates/admin.html:690 mysite/templates/supervisor.html:678
 msgid "Are you sure you want to delete this supervisor?"
 msgstr "¿Estás seguro de que deseas eliminar a este supervisor?"
 
-#: mysite/templates/admin.html:688
+#: mysite/templates/admin.html:695 mysite/templates/supervisor.html:683
 msgid "No management team members found"
 msgstr "No se encontraron miembros del equipo de gestión"
 
-#: mysite/templates/admin.html:699
+#: mysite/templates/admin.html:706 mysite/templates/supervisor.html:694
 msgid "Add New Member"
 msgstr "Agregar Nuevo Miembro"
 
-#: mysite/templates/admin.html:714
+#: mysite/templates/admin.html:721 mysite/templates/supervisor.html:709
 #, fuzzy
 #| msgid "Reset Password"
 msgid "Password"
 msgstr "Restablecer Contraseña"
 
-#: mysite/templates/admin.html:719
+#: mysite/templates/admin.html:726 mysite/templates/supervisor.html:714
 msgid "Assign to Group"
 msgstr "Asignar al Grupo"
 
-#: mysite/templates/admin.html:763
+#: mysite/templates/admin.html:770 mysite/templates/supervisor.html:758
 msgid "Search by user or action..."
 msgstr "Buscar por usuario o acción..."
 
-#: mysite/templates/admin.html:776
+#: mysite/templates/admin.html:783 mysite/templates/supervisor.html:771
 #, fuzzy
 #| msgid "User Name"
 msgid "User"
 msgstr "Nombre de Usuario"
 
-#: mysite/templates/admin.html:778
+#: mysite/templates/admin.html:785 mysite/templates/supervisor.html:773
 msgid "Timestamp"
 msgstr "Marca de tiempo"
 
-#: mysite/templates/admin.html:790
+#: mysite/templates/admin.html:797 mysite/templates/supervisor.html:785
 #, fuzzy
 #| msgid "No files found."
 msgid "No activity found"
 msgstr "No se encontraron archivos."
 
-#: mysite/templates/client.html:150 mysite/templates/client.html:181
-msgid "'s Dashboard"
-msgstr " Bienvenido "
+#: mysite/templates/admin.html:804 mysite/templates/client.html:648
+msgid "JRH Architects. All rights reserved."
+msgstr "JRH Arquitects. Todos los derechos reservados."
 
-#: mysite/templates/client.html:168 mysite/templates/client.html:195
+
+#: mysite/templates/client.html:176 mysite/templates/client.html:205
 msgid "Help"
 msgstr "Ayuda"
 
-#: mysite/templates/client.html:213
+#: mysite/templates/client.html:223
 msgid "Your Projects"
 msgstr "Tus Proyectos"
 
-#: mysite/templates/client.html:226 mysite/templates/client.html:315
-#: mysite/templates/client.html:344
+#: mysite/templates/client.html:236 mysite/templates/client.html:325
+#: mysite/templates/client.html:354
 msgid "Close"
 msgstr "Cerrar"
 
-#: mysite/templates/client.html:313
+#: mysite/templates/client.html:323
 #, python-format
 msgid "Files for %(project_title)s"
 msgstr "Archivos para %(project_title)s"
 
-#: mysite/templates/client.html:342
+#: mysite/templates/client.html:352
 #, python-format
 msgid "Upload Files for %(project_title)s"
 msgstr "Subir Archivos para %(project_title)s"
 
-#: mysite/templates/client.html:416
+#: mysite/templates/client.html:426
 msgid "Error creating project"
 msgstr "Error al crear el proyecto"
 
-#: mysite/templates/client.html:446
+#: mysite/templates/client.html:456
 msgid "Files uploaded successfully!"
 msgstr "Archivos subidos exitosamente!"
 
-#: mysite/templates/client.html:451
+#: mysite/templates/client.html:461
 msgid "Error uploading files"
 msgstr "Error al subir archivos"
 
-#: mysite/templates/client.html:455
+#: mysite/templates/client.html:465
 msgid "Error processing request"
 msgstr "Error al procesar la solicitud"
 
-#: mysite/templates/client.html:466
+#: mysite/templates/client.html:476
 msgid "Your Files"
 msgstr "Tus Archivos"
 
-#: mysite/templates/client.html:493
+#: mysite/templates/client.html:503
 msgid "Project:"
 msgstr "Proyecto:"
 
-#: mysite/templates/client.html:496
+#: mysite/templates/client.html:506
 msgid "Uploaded:"
 msgstr "Subido:"
 
-#: mysite/templates/client.html:609
+#: mysite/templates/client.html:619
 msgid "Contact for Help"
 msgstr "Contacto de ayuda"
 
-#: mysite/templates/client.html:610
+#: mysite/templates/client.html:620
 msgid "If you need assistance, you can contact the following person:"
 msgstr "Si necesita asistencia, puede contactar a la siguiente persona:"
 
-#: mysite/templates/client.html:615
+#: mysite/templates/client.html:625
 msgid "Architect:"
 msgstr "Arquitecto:"
 
-#: mysite/templates/client.html:622
+#: mysite/templates/client.html:632
 msgid "Phone:"
 msgstr "Teléfono:"
 
-#: mysite/templates/client.html:630
+#: mysite/templates/client.html:640
 msgid "Email:"
 msgstr "Correo electrónico:"
 
-#: mysite/templates/client.html:644
+#: mysite/templates/client.html:656
 msgid "Welcome!"
 msgstr "¡Bienvenido!"
 
-#: mysite/templates/client.html:648
+#: mysite/templates/client.html:660
 #, python-format
 msgid ""
 "\n"
@@ -403,38 +441,197 @@ msgstr ""
 "proyectos, %(user_name)s! Nos alegra tenerte con nosotros.\n"
 "          "
 
-#: mysite/templates/client.html:652
+#: mysite/templates/client.html:664
 msgid "Here's what you can do today:"
 msgstr "Esto es lo que puedes hacer hoy:"
 
-#: mysite/templates/client.html:658
+#: mysite/templates/client.html:670
 #, fuzzy
 #| msgid "Create Project"
 msgid "Create Projects"
 msgstr "Crear Proyectos"
 
-#: mysite/templates/client.html:659
+#: mysite/templates/client.html:671
 msgid "Start organizing your files by creating projects effortlessly."
 msgstr ""
 "Comienza a organizar tus archivos creando proyectos de manera sencilla."
 
-#: mysite/templates/client.html:666
+#: mysite/templates/client.html:678
 msgid "Quickly upload, store, and manage all your project files."
 msgstr "Sube, almacena y gestiona rápidamente todos tus archivos de proyectos."
 
-#: mysite/templates/client.html:672
+#: mysite/templates/client.html:684
 #, fuzzy
 #| msgid "Account Settings"
 msgid "Customize Settings"
 msgstr "Personalizar Configuraciones"
 
-#: mysite/templates/client.html:673
+#: mysite/templates/client.html:685
 msgid "Adjust your profile settings to suit your preferences."
 msgstr "Ajusta la configuración de tu perfil según tus preferencias."
 
-#: mysite/templates/client.html:679
+#: mysite/templates/client.html:691
 msgid "Let's Get Started!"
 msgstr "¡Comencemos!"
+
+#: mysite/templates/policy_terms.html:94 mysite/templates/policy_terms.html:96
+msgid "Policies and Terms of Use"
+msgstr "Políticas y Términos de Uso"
+
+#: mysite/templates/policy_terms.html:98
+msgid "1. Introduction"
+msgstr "1. Introducción"
+
+#: mysite/templates/policy_terms.html:99
+msgid ""
+"Welcome to the project management platform of JRH Architects. By using this "
+"platform, you agree to comply with the following terms and conditions. Please "
+"read them carefully."
+msgstr ""
+"Bienvenido a la plataforma de gestión de proyectos de JRH Arquitectos. Al "
+"utilizar esta plataforma, aceptas cumplir con los siguientes términos y "
+"condiciones. Por favor, léelos cuidadosamente."
+
+#: mysite/templates/policy_terms.html:101
+msgid "2. Platform Usage"
+msgstr "2. Uso de la Plataforma"
+
+#: mysite/templates/policy_terms.html:102
+msgid ""
+"This platform allows clients and collaborators of JRH Architects to upload "
+"and manage files related to architectural projects. Users can upload plans, "
+"technical documents, images, and other relevant files for ongoing projects."
+msgstr ""
+"Esta plataforma permite a los clientes y colaboradores de JRH Arquitectos "
+"subir y gestionar archivos relacionados con proyectos arquitectónicos. Los "
+"usuarios pueden subir planos, documentos técnicos, imágenes, y otros "
+"archivos relevantes para los proyectos en curso."
+
+#: mysite/templates/policy_terms.html:103
+msgid ""
+"The use of the platform is limited to professional purposes related to the "
+"architectural projects managed by JRH Architects. Any other use is strictly "
+"prohibited."
+msgstr ""
+"El uso de la plataforma está limitado a fines profesionales y relacionados "
+"con los proyectos arquitectónicos gestionados por JRH Arquitectos. Cualquier "
+"otro uso está estrictamente prohibido."
+
+#: mysite/templates/policy_terms.html:105
+msgid "3. Confidentiality"
+msgstr "3. Confidencialidad"
+
+#: mysite/templates/policy_terms.html:106
+msgid ""
+"JRH Architects guarantees the confidentiality of files uploaded to the "
+"platform. All documents and files will be handled securely and will not be "
+"shared with third parties without the explicit consent of the client."
+msgstr ""
+"JRH Arquitectos garantiza la confidencialidad de los archivos subidos a la "
+"plataforma. Todos los documentos y archivos serán tratados de forma segura y "
+"no serán compartidos con terceros sin el consentimiento explícito del "
+"cliente."
+
+#: mysite/templates/policy_terms.html:108
+msgid "4. User Responsibility"
+msgstr "4. Responsabilidad del Usuario"
+
+#: mysite/templates/policy_terms.html:109
+msgid ""
+"Users are responsible for ensuring that files uploaded to the platform do not "
+"contain viruses, malware, or any harmful software. They are also responsible "
+"for ensuring that files comply with all applicable legal regulations, "
+"including copyright and intellectual property rights."
+msgstr ""
+"Los usuarios son responsables de garantizar que los archivos subidos a la "
+"plataforma no contengan virus, malware o cualquier tipo de software dañino. "
+"También son responsables de asegurarse de que los archivos cumplen con todas "
+"las normativas legales aplicables, incluyendo derechos de autor y propiedad "
+"intelectual."
+
+#: mysite/templates/policy_terms.html:111
+msgid "5. Storage and Security"
+msgstr "5. Almacenamiento y Seguridad"
+
+#: mysite/templates/policy_terms.html:112
+msgid ""
+"The platform has advanced security measures to protect stored files. However, "
+"JRH Architects is not responsible for the loss of files due to technical "
+"issues or events beyond its control, such as cyberattacks or natural "
+"disasters."
+msgstr ""
+"La plataforma cuenta con medidas de seguridad avanzadas para proteger los "
+"archivos almacenados. Sin embargo, JRH Arquitectos no se hace responsable "
+"por la pérdida de archivos debido a problemas técnicos o eventos fuera de su "
+"control, como ataques cibernéticos o desastres naturales."
+
+#: mysite/templates/policy_terms.html:114
+msgid "6. Intellectual Property"
+msgstr "6. Propiedad Intelectual"
+
+#: mysite/templates/policy_terms.html:115
+msgid ""
+"All files uploaded by users will remain the property of the client. JRH "
+"Architects does not claim ownership rights over the uploaded documents, but "
+"reserves the right to use them exclusively for the management and execution "
+"of the projects for which they were uploaded."
+msgstr ""
+"Todos los archivos subidos por los usuarios seguirán siendo propiedad del "
+"cliente. JRH Arquitectos no reclama derechos de propiedad sobre los "
+"documentos subidos, pero sí tiene el derecho de utilizarlos exclusivamente "
+"para la gestión y ejecución de los proyectos para los que fueron subidos."
+
+#: mysite/templates/policy_terms.html:117
+msgid "7. File Deletion"
+msgstr "7. Eliminación de Archivos"
+
+#: mysite/templates/policy_terms.html:118
+msgid ""
+"Users may request the deletion of files at any time by submitting a request to "
+"the platform administrator. JRH Architects also reserves the right to delete "
+"files that violate the platform's policies or applicable laws."
+msgstr ""
+"Los usuarios pueden solicitar la eliminación de archivos en cualquier "
+"momento, enviando una solicitud al administrador de la plataforma. JRH "
+"Arquitectos también se reserva el derecho de eliminar archivos que infrinjan "
+"las políticas de la plataforma o las leyes aplicables."
+
+#: mysite/templates/policy_terms.html:120
+msgid "8. Modifications to the Terms"
+msgstr "8. Modificaciones a los Términos"
+
+#: mysite/templates/policy_terms.html:121
+msgid ""
+"JRH Architects reserves the right to modify these terms of use at any time. "
+"Any changes will be notified to users through the platform, and continued use "
+"of the platform will constitute acceptance of the new terms."
+msgstr ""
+"JRH Arquitectos se reserva el derecho de modificar estos términos de uso en "
+"cualquier momento. Cualquier cambio será notificado a los usuarios a través "
+"de la plataforma, y el uso continuo de la misma constituirá la aceptación de "
+"los nuevos términos."
+
+#: mysite/templates/policy_terms.html:123
+msgid "9. Contact"
+msgstr "9. Contacto"
+
+#: mysite/templates/policy_terms.html:124
+msgid ""
+"If you have any questions about these policies or the use of the platform, "
+"you can contact JRH Architects via email: soporte@jrharchitects.com."
+msgstr ""
+"Si tienes alguna pregunta sobre estas políticas o el uso de la plataforma, "
+"puedes ponerte en contacto con JRH Arquitectos a través del correo "
+"electrónico: soporte@jrharchitects.com."
+
+#: mysite/templates/policy_terms.html:128
+msgid "Back to Registration"
+msgstr "Volver a Registro"
+
+#: mysite/templates/policy_terms.html:134
+msgid "© 2024 JRH Architects. All rights reserved."
+msgstr "© 2024 JRH Arquitectos. Todos los derechos reservados."
+
 
 #: mysite/templates/registration/password_reset_complete.html:7
 #: mysite/templates/registration/password_reset_complete.html:37
@@ -502,6 +699,9 @@ msgstr "Ingresa tu dirección de correo electrónico"
 #: mysite/templates/registration/password_reset_form.html:64
 msgid "Send Reset Link"
 msgstr "Enviar Enlace de Restablecimiento"
+
+#~ msgid "'s Dashboard"
+#~ msgstr " Bienvenido "
 
 #~ msgid "Add Client"
 #~ msgstr "Agregar Cliente"

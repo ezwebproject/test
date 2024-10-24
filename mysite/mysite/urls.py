@@ -23,7 +23,8 @@ from django.contrib.auth import views as auth_views
 from mysite.views import client_project_create
 from django.conf.urls.i18n import i18n_patterns
 from django.views.i18n import set_language
-
+from django.conf.urls.static import static
+from django.conf.urls import handler404, handler500, handler403, handler400
 urlpatterns = [
     path('', views.login_view, name='login'),  # Página de login en la raíz
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
@@ -32,6 +33,8 @@ urlpatterns = [
     path('admin/', views.admin_view, name='admin'),
     path('supervisor/', views.supervisor_view, name='supervisor'),
     path('register/', views.register_view, name='register'),
+    path('policy_terms/', views.policy_terms_view, name='policy_terms'),
+
     path('delete-file/<int:file_id>/', views.delete_file, name='delete_file'),
     path('project/<int:project_id>/add_file/', views.add_file_to_project, name='add_file_to_project'),
     path('project/<int:project_id>/delete/', views.delete_project, name='delete_project'),
@@ -113,3 +116,8 @@ path('delete-supervisor/<int:supervisor_id>/', views.delete_supervisor, name='de
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = 'mysite.views.error_404_view'
+handler500 = 'mysite.views.error_500_view'
+handler403 = 'mysite.views.error_403_view'
+handler400 = 'mysite.views.error_400_view'

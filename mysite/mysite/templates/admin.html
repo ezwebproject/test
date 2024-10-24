@@ -107,6 +107,13 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
     .floating-btn:hover {
       background-color: grey;
     }
+    .footer-right {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    color: #555; /* Cambia el color si es necesario */
+    font-size: 14px;
+}
 
     /* Responsive Navbar for mobile view */
     .navbar {
@@ -793,7 +800,9 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
     </tbody>
   </table>
 </div>
-
+<footer class="footer-right">
+  <p>© 2024 {% trans 'JRH Architects. All rights reserved.' %}</p>
+</footer>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const logSearchInput = document.getElementById('logSearchInput');
