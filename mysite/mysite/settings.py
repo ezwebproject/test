@@ -28,10 +28,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^=6-_k)oh!n9-fpcd1qd0rf(!8y2!!8cc*so1if(!*ydv@*_dc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-#ALLOWED_HOSTS = ['127.0.0.1', '8000-idx-test-1725770159174.cluster-vyr53kd25jc2yvngldrwyq6zc4.cloudworkstations.dev']
-ALLOWED_HOSTS = ["ezwebproject.pythonanywhere.com"]
+ALLOWED_HOSTS = ['127.0.0.1', '8000-idx-test-1725770159174.cluster-vyr53kd25jc2yvngldrwyq6zc4.cloudworkstations.dev']
+#ALLOWED_HOSTS = ["ezwebproject.pythonanywhere.com"]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -127,7 +127,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Puerto_Rico'
 
 USE_I18N = True
 
@@ -182,5 +182,21 @@ LOCALE_PATHS = [
 ]
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# SECURE_SSL_REDIRECT = True
+# SECURE_HSTS_SECONDS = 31536000  # Un año
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
+
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # O una ruta absoluta más segura
+    }
+}
 

@@ -35,18 +35,10 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('policy_terms/', views.policy_terms_view, name='policy_terms'),
 
-    path('delete-file/<int:file_id>/', views.delete_file, name='delete_file'),
-    path('project/<int:project_id>/add_file/', views.add_file_to_project, name='add_file_to_project'),
+  
     path('project/<int:project_id>/delete/', views.delete_project, name='delete_project'),
-    path('create_project/', views.create_project, name='create_project'),
     path('delete-user/<int:user_id>/', views.delete_user, name='delete_user'),
-    path('admin/clients-projects/', views.admin_clients_projects, name='admin_clients_projects'),
-    path('download_all_files/<int:project_id>/', views.download_all_files, name='download_all_files'),
-    path('download_all_files/', views.download_all_files, name='download_all_files'),
-    path('files/', views.files_view, name='files_view'),
-    path('admin/delete-file/<int:file_id>/', views.delete_file_admin, name='delete_file_admin'),
-    path('get-projects/', views.get_projects, name='get-projects'),
-    path('project/<int:project_id>/upload/', views.upload_file, name='upload_file'),
+   
 
 ##################################################################################################################
 

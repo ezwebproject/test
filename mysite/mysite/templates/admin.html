@@ -138,6 +138,11 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
       border: none;
       color: black;
     }
+    @media (max-width: 767px) {
+  .email-column {
+    display: none;
+  }
+}
 
     .navbar-toggler-icon {
       background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 0, 0, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
@@ -666,8 +671,8 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
         <thead>
           <tr>
             <th>{% trans 'Name' %}</th>
-            <th>{% trans 'Email' %}</th>
-            <th>{% trans 'Group' %}</th> <!-- Nueva columna para cambiar de grupo -->
+            <th class="email-column">{% trans 'Email' %}</th> <!-- Ocultar en teléfonos -->
+            <th>{% trans 'Group' %}</th>
             <th>{% trans 'Action' %}</th>
           </tr>
         </thead>
@@ -675,7 +680,7 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
           {% for supervisor in supervisors %}
           <tr class="supervisor-item">
             <td>{{ supervisor.first_name }} {{ supervisor.last_name }}</td>
-            <td>{{ supervisor.email }}</td>
+            <td class="email-column">{{ supervisor.email }}</td> <!-- Ocultar en teléfonos -->
             <td>
               <!-- Formulario para cambiar de grupo -->
               <form method="POST" action="{% url 'change_group' supervisor.id %}">
@@ -697,6 +702,7 @@ cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet
           {% endfor %}
         </tbody>
       </table>
+      
     
       <!-- Modal para añadir un nuevo supervisor -->
       <div class="modal fade" id="addSupervisorModal" tabindex="-1" aria-labelledby="addSupervisorModalLabel" aria-hidden="true">
