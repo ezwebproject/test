@@ -1,0 +1,4 @@
+Title: Project 3 for Laura Lopez
+Description: This is the description for Project 3 for Laura Lopez.
+User: Laura Lopez (Email: laura8@example.com)
+Created at: 2024-10-25 05:57:03.750183+00:00

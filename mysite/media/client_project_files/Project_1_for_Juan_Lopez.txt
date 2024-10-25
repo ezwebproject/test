@@ -1,0 +1,4 @@
+Title: Project 1 for Juan Lopez
+Description: This is the description for Project 1 for Juan Lopez.
+User: Juan Lopez (Email: juan15@example.com)
+Created at: 2024-10-25 05:55:12.931143+00:00
