@@ -834,6 +834,8 @@ def supervisor_view(request):
 
 
 def error_404_view(request, exception):
+
+
     return render(request, 'errors/error.html', {
         'message': 'Ha ocurrido un error, favor de intentarlo nuevamente. Si el error persiste, intente más tarde.'
     }, status=404)
